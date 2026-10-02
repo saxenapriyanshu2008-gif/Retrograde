@@ -8,9 +8,9 @@ Opening a black watch box: one object at a time on black velvet, lit from above.
 
 ## Name and story
 
-- **Pahar** is the old Indian unit for one eighth of a day (3 hours).
-- Each collection is named after a unit of time that matches what it is for: **Nimesh** (a blink) for digital, **Pal** (24 s) for quartz, **Ghati** (24 min) for mechanical, **Kalpa** (4.32 billion years) for the rare handcrafted line.
-- The "Our time" table shows the real unit ladder: 1 day = 8 pahar = 60 ghati, 1 ghati = 60 pal, 1 pal = 60 vipal.
+- **Vela** (वेला) is a Hindi word for time.
+- Each collection is named after an old Indian unit of time that matches what it is for: **Nimesh** (a blink) for digital, **Pal** (24 s) for quartz, **Ghati** (24 min) for mechanical, **Kalpa** (4.32 billion years) for the rare handcrafted line.
+- The "Our names" table shows where the names come from.
 
 ## Colour
 
@@ -26,18 +26,18 @@ Opening a black watch box: one object at a time on black velvet, lit from above.
 
 - **Bodoni Moda** for headings: high-contrast numerals like the ones printed on classic dials.
 - **Instrument Sans** for reading and for digital displays.
-- **Tiro Devanagari Hindi** for the unit names (पहर, घटी, पल), so the Indian side of the brand is visible, not just mentioned.
+- **Tiro Devanagari Hindi** for वेला and the unit names (घटी, पल), so the Indian side of the brand is visible, not just mentioned.
 
-## Hero: fogged sapphire (custom interactive element)
+## Hero: a watch that turns toward you (custom interactive element)
 
-- A live dial in SVG (`js/faces.js`): hands show the real time, the seconds hand sweeps in 8 beats a second like a 28,800 vph movement, and a small ring at six o'clock lights the current pahar.
-- Over it, `js/fog.js` paints fog into an offscreen canvas. Moving the cursor erases soft circles with `destination-out`. The fog slowly returns, like breath on glass.
-- Under the watch, the current time is shown in pahar, ghati and pal, counted from 6 am.
+- A live dial in SVG (`js/faces.js`): hands show the real time and the seconds hand sweeps in 8 beats a second, like a 28,800 vph mechanical movement.
+- Move the cursor anywhere in the hero and the watch tilts to face it with CSS 3D transforms (`rotateX`, `rotateY`), like picking it up off a tray. A glint on the glass slides the other way, as light from a window would.
+- Updates are batched with `requestAnimationFrame`. Touch screens and reduced motion get a still watch.
 
 ## Inside: exploded 3D watch (scroll-driven animation)
 
 - `js/watch3d.js`, Three.js. The section is 800vh tall and its stage is `position: sticky`.
-- The watch is built in code: lathe-turned case and caseback, a bezel with 60 grip notches, a ceramic insert printed with eight pahar numerals, a domed sapphire crystal (`transmission`), a sunburst dial texture with 3D applied indices, gold hands showing the real time, and a movement with toothed gears, ruby jewels, blued screws, a balance wheel with hairspring, and a gold rotor.
+- The watch is built in code: lathe-turned case and caseback, a bezel with 60 grip notches, a ceramic dive-bezel insert with a 60 minute scale, a domed sapphire crystal (`transmission`), a sunburst dial texture with 3D applied indices, gold hands showing the real time, and a movement with toothed gears, ruby jewels, blued screws, a balance wheel with hairspring, and a gold rotor.
 - Materials are physical (metalness, roughness, clearcoat) and lit by a studio environment map, so steel reflects like steel. A gentle bloom pass adds glow to polished edges.
 - Timeline: product shot, then the stack opens vertically along the watch's axis with labelled leader lines (like a technical drawing). Then each key part flies out of the stack toward you, turns to face you, gets a brass hologram outline and a label, and goes back. Finally everything reassembles.
 - The balance wheel swings at 4 Hz, the gear train turns, and the rotor spins while in focus.
@@ -45,5 +45,5 @@ Opening a black watch box: one object at a time on black velvet, lit from above.
 
 ## Collections and Kalpa
 
-- Every face is live SVG: Nimesh shows digital time and the current pahar and ghati, Pal is a light quartz dial, Ghati has an open heart with a beating balance wheel.
+- Every face is live SVG: Nimesh shows digital time, seconds and the date, Pal is a light quartz dial, Ghati has an open heart with a beating balance wheel.
 - Kalpa pieces: Bidri (silver inlay rosette), Ulka (meteorite crystal pattern drawn procedurally) and Jantar (real moon phase and the current tithi, worked out from the date).

@@ -128,11 +128,11 @@ function dialTexture() {
     g.fillStyle = "#ecebe7";
     g.font = '600 54px "Bodoni Moda", Didot, serif';
     g.letterSpacing = "14px";
-    g.fillText("PAHAR", c, c * 0.56);
+    g.fillText("VELA", c, c * 0.56);
     g.fillStyle = "#c8a46a";
     g.font = '40px "Tiro Devanagari Hindi", serif';
     g.letterSpacing = "0px";
-    g.fillText("पहर", c, c * 0.66);
+    g.fillText("वेला", c, c * 0.66);
     g.fillStyle = "#9b988f";
     g.font = '500 24px "Instrument Sans", Arial, sans-serif';
     g.letterSpacing = "6px";
@@ -140,33 +140,40 @@ function dialTexture() {
   });
 }
 
-// black ceramic bezel insert with eight pahar marks in Devanagari
+// black ceramic bezel insert with a 60 minute scale
 function bezelTexture() {
   return canvasTexture(1024, (g, S) => {
     const c = S / 2;
     g.fillStyle = "#070707";
     g.fillRect(0, 0, S, S);
-    const nums = ["८", "१", "२", "३", "४", "५", "६", "७"];
     g.textAlign = "center";
     g.textBaseline = "middle";
-    for (let i = 0; i < 8; i++) {
-      const a = (i / 8) * TAU - Math.PI / 2;
-      const r = c * 0.885;
-      g.save();
-      g.translate(c + Math.cos(a) * r, c + Math.sin(a) * r);
-      g.rotate(a + Math.PI / 2);
-      g.fillStyle = i === 0 ? "#e7cb94" : "#d9d9d6";
-      g.font = '58px "Tiro Devanagari Hindi", serif';
-      g.fillText(nums[i], 0, 4);
-      g.restore();
-      // small marks between numerals
-      for (let k = 1; k < 5; k++) {
-        const b = a + (k / 5) * (TAU / 8);
-        g.strokeStyle = "#8a8a88";
-        g.lineWidth = 4;
+    for (let i = 0; i < 60; i++) {
+      const a = (i / 60) * TAU - Math.PI / 2;
+      if (i % 10 === 0 && i > 0) {
+        // numerals at 10, 20, 30, 40, 50
+        g.save();
+        g.translate(c + Math.cos(a) * c * 0.885, c + Math.sin(a) * c * 0.885);
+        g.rotate(a + Math.PI / 2);
+        g.fillStyle = "#d9d9d6";
+        g.font = '500 46px "Instrument Sans", Arial, sans-serif';
+        g.fillText(String(i), 0, 2);
+        g.restore();
+      } else if (i === 0) {
+        // brass triangle at zero
+        g.save();
+        g.translate(c + Math.cos(a) * c * 0.885, c + Math.sin(a) * c * 0.885);
+        g.rotate(a + Math.PI / 2);
+        g.fillStyle = "#e7cb94";
+        g.beginPath(); g.moveTo(-20, -16); g.lineTo(20, -16); g.lineTo(0, 18); g.closePath(); g.fill();
+        g.restore();
+      } else {
+        const big = i % 5 === 0;
+        g.strokeStyle = i < 15 ? "#bdbdba" : "#8a8a88";
+        g.lineWidth = big ? 7 : 4;
         g.beginPath();
-        g.moveTo(c + Math.cos(b) * c * 0.85, c + Math.sin(b) * c * 0.85);
-        g.lineTo(c + Math.cos(b) * c * 0.92, c + Math.sin(b) * c * 0.92);
+        g.moveTo(c + Math.cos(a) * c * (big ? 0.84 : 0.86), c + Math.sin(a) * c * (big ? 0.84 : 0.86));
+        g.lineTo(c + Math.cos(a) * c * 0.93, c + Math.sin(a) * c * 0.93);
         g.stroke();
       }
     }
@@ -464,7 +471,7 @@ export async function init({ canvas, section, getProgress, callout }) {
   if (document.fonts) {
     await Promise.all([
       document.fonts.load('600 54px "Bodoni Moda"'),
-      document.fonts.load('40px "Tiro Devanagari Hindi"', "पहर१२"),
+      document.fonts.load('40px "Tiro Devanagari Hindi"', "वेला"),
       document.fonts.load('500 24px "Instrument Sans"'),
     ]).catch(() => {});
   }
@@ -559,7 +566,7 @@ export async function init({ canvas, section, getProgress, callout }) {
   canvas.parentElement.appendChild(labelLayer);
   const LABELS = [
     ["crystal", "Domed sapphire crystal", 1.6],
-    ["insert", "Ceramic bezel, eight pahar", 1.94],
+    ["insert", "Ceramic bezel insert", 1.94],
     ["bezel", "Steel bezel with grip edge", 2.02],
     ["minute", "Gold dauphine hands", 1.0],
     ["dial", "Sunburst dial, applied indices", 1.6],

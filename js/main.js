@@ -12,6 +12,35 @@
   links.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
 
+  /* ---------- hero: the watch turns toward your cursor ---------- */
+  // Move the mouse anywhere in the hero and the watch tilts to face it,
+  // like picking one up off a tray. The glint on the glass moves the
+  // other way, as light from a window would.
+  const hero = document.querySelector(".hero");
+  const tilt = hero.querySelector(".tilt");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (tilt && !reduce && window.matchMedia("(hover: hover)").matches) {
+    let frame = 0;
+    hero.addEventListener("pointermove", (e) => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const r = tilt.getBoundingClientRect();
+        // -1 to 1 from the watch centre, limited so it never flips
+        const x = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / (r.width * 0.9)));
+        const y = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / (r.height * 0.9)));
+        tilt.classList.add("is-moving");
+        tilt.style.setProperty("--ry", `${(x * 18).toFixed(2)}deg`);
+        tilt.style.setProperty("--rx", `${(-y * 14).toFixed(2)}deg`);
+        tilt.style.setProperty("--gx", `${(50 - x * 35).toFixed(1)}%`);
+        tilt.style.setProperty("--gy", `${(45 - y * 30).toFixed(1)}%`);
+      });
+    });
+    hero.addEventListener("pointerleave", () => {
+      tilt.classList.remove("is-moving");
+      ["--rx", "--ry", "--gx", "--gy"].forEach((v) => tilt.style.removeProperty(v));
+    });
+  }
+
   /* ---------- inside the watch: scroll progress ---------- */
   // The section is 800vh tall and its stage sticks to the screen.
   // Progress is how far we are through it, from 0 to 1.

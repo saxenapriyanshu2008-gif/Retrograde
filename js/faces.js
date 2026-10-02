@@ -7,22 +7,11 @@
   - mechanical (Ghati, Kalpa, hero): sweeps in 8 small beats a second,
     because a 28,800 beats an hour movement ticks 8 times a second
 
-  Also exports the Indian time units, counted from sunrise (taken as 6 am).
+  The Nimesh digital face also shows the date.
 */
 (function () {
   const NS = "http://www.w3.org/2000/svg";
   const C = 200; // dial centre, viewBox is 400 x 400
-
-  /* ---------- Indian time units ---------- */
-  // 1 day = 8 pahar = 60 ghati, 1 ghati = 60 pal (24 s), 1 pal = 60 vipal
-  function indianTime(d = new Date()) {
-    const secs = ((d.getHours() - 6 + 24) % 24) * 3600 + d.getMinutes() * 60 + d.getSeconds();
-    return {
-      pahar: Math.floor(secs / 10800) + 1,          // 1 to 8
-      ghati: Math.floor(secs / 1440) + 1,           // 1 to 60 in the day
-      pal: Math.floor((secs % 1440) / 24) + 1,      // 1 to 60 in the ghati
-    };
-  }
 
   /* ---------- moon, for the Kalpa Jantar ---------- */
   function moonAge(d = new Date()) {
@@ -110,7 +99,7 @@
   /* ---------- the faces ---------- */
 
   const FACES = {
-    // the hero: black sunburst, brass indices, a pahar ring at six o'clock
+    // the hero: black sunburst, brass indices, small seconds at six o'clock
     hero: {
       sweep: true,
       svg: (id) => `
@@ -123,10 +112,9 @@
         </radialGradient></defs>
         ${ticks(166, 172, 60, 5, "tk", "tk-b")}
         ${indices(156, 26, 7, "brass")}
-        <text x="${C}" y="118" class="brand">PAHAR</text>
-        <text x="${C}" y="138" class="deva-s" lang="hi">पहर</text>
-        <g class="pahar-ring">${paharRing(C, 268, 30)}</g>
-        <text x="${C}" y="${268 + 4}" class="sub" data-pahar-num>3</text>
+        <text x="${C}" y="118" class="brand">VELA</text>
+        <text x="${C}" y="138" class="deva-s" lang="hi">वेला</text>
+        <text x="${C}" y="292" class="sub">GHATI 01  AUTOMATIC</text>
         ${hands.dauphine("brass-hand")}
         ${hands.seconds("sec", "sec-dot")}
         <circle cx="${C}" cy="${C}" r="3" fill="#050505"/>`,
@@ -141,11 +129,11 @@
         </linearGradient></defs>
         <rect x="40" y="40" width="320" height="320" rx="70" fill="url(#case-${id})"/>
         <rect x="64" y="64" width="272" height="272" rx="50" fill="#050505"/>
-        <text x="${C}" y="118" class="lcd-label">PAHAR NIMESH</text>
+        <text x="${C}" y="118" class="lcd-label">VELA NIMESH</text>
         <text x="${C}" y="218" class="lcd-big" data-digital-time>10:08</text>
         <text x="${C}" y="252" class="lcd-small" data-digital-sec>SEC 32</text>
         <line x1="104" y1="274" x2="296" y2="274" class="lcd-rule"/>
-        <text x="${C}" y="304" class="lcd-small brassfill" data-digital-indian>PAHAR 3  GHATI 12</text>
+        <text x="${C}" y="304" class="lcd-small brassfill" data-digital-date>FRI 02 OCT</text>
         <rect x="372" y="120" width="10" height="40" rx="3" fill="#2b2b2d"/>
         <rect x="372" y="240" width="10" height="40" rx="3" fill="#2b2b2d"/>`,
     },
@@ -158,7 +146,7 @@
         ${ticks(168, 174, 60, 5, "tk-d", "tk-db")}
         <text x="${C}" y="76" class="num">12</text><text x="${C + 140}" y="${C + 12}" class="num">3</text>
         <text x="${C}" y="${C + 154}" class="num">6</text><text x="${C - 140}" y="${C + 12}" class="num">9</text>
-        <text x="${C}" y="132" class="brand dark">PAHAR</text>
+        <text x="${C}" y="132" class="brand dark">VELA</text>
         <text x="${C}" y="282" class="sub dark">PAL QUARTZ</text>
         ${hands.baton("ink-hand")}
         ${hands.seconds("sec", "sec-dot")}`,
@@ -179,7 +167,7 @@
           <path d="M88 200 H148 M118 170 V230" stroke="#c8a46a" stroke-width="3"/>
           <path d="M118 200 m0 -6 a6 6 0 1 1 -1 0 m1 -6 a12 12 0 1 1 -2 0 m2 -6 a18 18 0 1 1 -3 0" fill="none" stroke="#9fa0a3" stroke-width="1"/>
         </g>
-        <text x="${C + 50}" y="128" class="brand">PAHAR</text>
+        <text x="${C + 50}" y="128" class="brand">VELA</text>
         <text x="${C + 50}" y="146" class="sub">GHATI AUTOMATIC</text>
         ${hands.dauphine("steel-hand")}
         ${hands.seconds("sec", "sec-dot")}`,
@@ -210,7 +198,7 @@
           <circle cx="${C}" cy="${C}" r="176" fill="#5d5e62"/>
           <g clip-path="url(#clip-${id})">${bands}</g>
           ${indices(160, 20, 6, "goldfill")}
-          <text x="${C}" y="126" class="brand">PAHAR</text>
+          <text x="${C}" y="126" class="brand">VELA</text>
           ${hands.leaf("gold-hand")}
           ${hands.seconds("sec-gold", "gold-dot")}`;
       },
@@ -242,25 +230,13 @@
             <circle cx="${C}" cy="270" r="26" fill="#efe6cf"/>
             <circle cx="${f(C + Number(shift))}" cy="270" r="27" fill="#0b0e18"/>
           </g>
-          <text x="${C}" y="118" class="brand">PAHAR</text>
+          <text x="${C}" y="118" class="brand">VELA</text>
           <text x="${C}" y="138" class="sub">TITHI ${tithi}</text>
           ${hands.leaf("gold-hand")}
           ${hands.seconds("sec-gold", "gold-dot")}`;
       },
     },
   };
-
-  // eight segments for the pahar sub-dial; the current one is lit
-  function paharRing(cx, cy, r) {
-    let s = "";
-    for (let i = 0; i < 8; i++) {
-      const a0 = ((i * 45 - 90 + 3) * Math.PI) / 180;
-      const a1 = (((i + 1) * 45 - 90 - 3) * Math.PI) / 180;
-      const p = (a, rr) => `${f(cx + rr * Math.cos(a))} ${f(cy + rr * Math.sin(a))}`;
-      s += `<path data-seg="${i + 1}" d="M${p(a0, r)} A${r} ${r} 0 0 1 ${p(a1, r)} L${p(a1, r - 7)} A${r - 7} ${r - 7} 0 0 0 ${p(a0, r - 7)} Z" class="seg"/>`;
-    }
-    return s;
-  }
 
   // Bidri: black dial, a silver eight-petal rosette and a border of diamonds
   function bidri(id) {
@@ -316,7 +292,6 @@
     const s = d.getSeconds();
     const m = d.getMinutes() + s / 60;
     const h = (d.getHours() % 12) + m / 60;
-    const it = indianTime(d);
 
     for (const w of live) {
       if (!w.visible) continue;
@@ -325,7 +300,9 @@
         const mm = String(d.getMinutes()).padStart(2, "0");
         w.svg.querySelector("[data-digital-time]").textContent = `${hh}:${mm}`;
         w.svg.querySelector("[data-digital-sec]").textContent = `SEC ${String(s).padStart(2, "0")}`;
-        w.svg.querySelector("[data-digital-indian]").textContent = `PAHAR ${it.pahar}  GHATI ${it.ghati}`;
+        w.svg.querySelector("[data-digital-date]").textContent = d
+          .toLocaleDateString("en-GB", { weekday: "short", day: "2-digit", month: "short" })
+          .replace(",", "").toUpperCase();
         continue;
       }
       rot(w.hour, h * 30);
@@ -336,18 +313,7 @@
       if (w.balance && !reduceMotion) {
         w.balance.style.transform = `rotate(${f(Math.sin(now / 1000 * Math.PI * 8) * 200)}deg)`;
       }
-      const num = w.svg.querySelector("[data-pahar-num]");
-      if (num) {
-        num.textContent = it.pahar;
-        w.svg.querySelectorAll(".seg").forEach((seg) => seg.classList.toggle("on", Number(seg.dataset.seg) === it.pahar));
-      }
     }
-
-    // the "right now" line under the hero watch
-    const set = (u, v) => { const el = document.querySelector(`.now [data-unit="${u}"]`); if (el) el.textContent = v; };
-    set("pahar", `Pahar ${it.pahar} of 8`);
-    set("ghati", `Ghati ${it.ghati} of 60`);
-    set("pal", `Pal ${it.pal} of 60`);
   }
 
   // only animate faces on screen
@@ -366,5 +332,5 @@
   }
   requestAnimationFrame(loop);
 
-  window.PaharTime = { indianTime, moonAge };
+
 })();

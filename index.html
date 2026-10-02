@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pahar | Watches measured the Indian way</title>
-  <meta name="description" content="Pahar makes digital, analog and mechanical watches, and a handcrafted Kalpa line, named after India's old units of time.">
+  <title>Vela | Watches made in India</title>
+  <meta name="description" content="Vela makes digital, analog and mechanical watches, and Kalpa, a rare handcrafted line.">
   <meta name="theme-color" content="#000000">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,23 +16,23 @@
   <a class="skip" href="#main">Skip to content</a>
 
   <header class="nav" id="top">
-    <a class="wordmark" href="#top" aria-label="Pahar home">Pahar</a>
+    <a class="wordmark" href="#top" aria-label="Vela home">Vela</a>
     <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links">Menu</button>
     <nav id="nav-links" class="nav-links" aria-label="Main">
       <a href="#inside">Inside</a>
       <a href="#collections">Collections</a>
       <a href="#kalpa">Kalpa</a>
-      <a href="#time">Our time</a>
+      <a href="#time">Our names</a>
       <a class="nav-cta" href="#visit">Book a viewing</a>
     </nav>
   </header>
 
   <main id="main">
-    <!-- HERO: a live dial under a fogged sapphire crystal. Wipe it to read the time. -->
+    <!-- HERO: a live watch that tilts toward your cursor, with a moving glint -->
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <h1 id="hero-title" class="hero-title">India measured time in pahar. So do we.</h1>
-        <p class="hero-sub">Digital, analog and mechanical watches, and a handcrafted line made a few pieces a year. Each one is named after an old Indian unit of time.</p>
+        <h1 id="hero-title" class="hero-title">Watches for every kind of time.</h1>
+        <p class="hero-sub">Digital, analog and mechanical watches, and Kalpa, a handcrafted line made only a few pieces a year. Designed and assembled in New Delhi.</p>
         <div class="hero-actions">
           <a class="btn btn-solid" href="#collections">See the watches</a>
           <a class="btn btn-line" href="#inside">Look inside</a>
@@ -40,15 +40,13 @@
       </div>
 
       <div class="hero-watch">
-        <figure class="crystal">
-          <div class="dial" data-face="hero" role="img" aria-label="A Pahar watch dial showing the current time"></div>
-          <canvas class="fog" aria-hidden="true"></canvas>
-          <p class="wipe-hint" aria-hidden="true">Breathe on it. Wipe it.</p>
+        <figure class="tilt">
+          <div class="tilt-body">
+            <div class="dial" data-face="hero" role="img" aria-label="A Vela Ghati 01 dial showing the current time"></div>
+            <span class="glint" aria-hidden="true"></span>
+          </div>
         </figure>
-        <p class="now" aria-live="off">
-          <span class="now-label">Right now, counted from sunrise at 6 am</span>
-          <span class="now-value"><span class="u" data-unit="pahar">Pahar 3</span><span class="u" data-unit="ghati">Ghati 12</span><span class="u" data-unit="pal">Pal 40</span></span>
-        </p>
+        <p class="hero-caption">Ghati 01 Automatic, 40 mm. <span>₹62,000</span></p>
       </div>
     </section>
 
@@ -194,8 +192,8 @@
     <!-- OUR TIME: the units the brand is built on -->
     <section class="time" id="time" aria-labelledby="time-title">
       <div class="section-head">
-        <h2 id="time-title">Before hours and minutes, there was this.</h2>
-        <p>Long before clocks, Indian astronomers split the day from sunrise to sunrise. We built a watch company on their numbers.</p>
+        <h2 id="time-title">Where our names come from.</h2>
+        <p>Long before hours and minutes, Indian astronomers split the day into smaller and smaller units. Each Vela collection is named after one of them.</p>
       </div>
 
       <div class="ladder-wrap">
@@ -204,7 +202,6 @@
             <tr><th scope="col">Unit</th><th scope="col">What it is</th><th scope="col">In today's time</th></tr>
           </thead>
           <tbody>
-            <tr><th scope="row">Pahar <span class="deva" lang="hi">पहर</span></th><td>One eighth of a day</td><td>3 hours</td></tr>
             <tr><th scope="row">Muhurta <span class="deva" lang="hi">मुहूर्त</span></th><td>Two ghati</td><td>48 minutes</td></tr>
             <tr><th scope="row">Ghati <span class="deva" lang="hi">घटी</span></th><td>One sixtieth of a day</td><td>24 minutes</td></tr>
             <tr><th scope="row">Pal <span class="deva" lang="hi">पल</span></th><td>One sixtieth of a ghati</td><td>24 seconds</td></tr>
@@ -212,7 +209,7 @@
           </tbody>
         </table>
       </div>
-      <p class="time-note">Every Pahar watch has a small second display, or a setting, that shows the time in pahar and ghati too.</p>
+      <p class="time-note">Vela means time in Hindi. Our collections are named after these units.</p>
     </section>
 
     <!-- VISIT: the call to action -->
@@ -221,10 +218,10 @@
         <h2 id="visit-title">Try one on.</h2>
         <p>Book a private viewing at our studio. We will have the watches you pick ready on a tray, and a watchmaker there to open one up for you.</p>
         <address>
-          Pahar Studio<br>
+          Vela Studio<br>
           2nd floor, 14 Hauz Khas Village<br>
           New Delhi 110016<br>
-          hello@pahar.example
+          hello@vela.example
         </address>
       </div>
 
@@ -254,13 +251,12 @@
   </main>
 
   <footer class="footer">
-    <p class="wordmark">Pahar</p>
+    <p class="wordmark">Vela</p>
     <p>A fictional brand made for the ACM Technical Team Round 2. All watches, drawings and the 3D model are original.</p>
     <a href="#top">Back to top</a>
   </footer>
 
   <script src="js/faces.js" defer></script>
-  <script src="js/fog.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>
