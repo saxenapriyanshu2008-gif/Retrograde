@@ -250,17 +250,19 @@ p { margin: 0 0 1em; }
 .wipe-hint {
   position: absolute;
   z-index: 1;
-  top: 22%;
-  right: var(--gutter);
   margin: 0;
   font-family: var(--hand);
-  font-size: var(--step-1);
   color: var(--sodium);
   pointer-events: none;
-  transform: rotate(-4deg);
   transition: opacity 0.6s;
 }
 .wipe-hint.is-gone { opacity: 0; }
+.hero .wipe-hint {
+  top: 22%;
+  right: var(--gutter);
+  font-size: var(--step-1);
+  transform: rotate(-4deg);
+}
 
 .hero-copy {
   position: relative;
@@ -295,7 +297,7 @@ p { margin: 0 0 1em; }
 }
 
 /* ---------- shared section layout ---------- */
-.rebuild, .heart, .cars, .reserve {
+.heart, .cars, .reserve {
   padding: clamp(5rem, 12vw, 9rem) var(--gutter);
   max-width: var(--max);
   margin: 0 auto;
@@ -314,31 +316,118 @@ p { margin: 0 0 1em; }
   margin: 0;
 }
 
-/* ---------- rebuild steps (a real sequence, so numbered) ---------- */
-.rebuild-steps {
+/* ---------- rebuild: sticky 3D stage ---------- */
+.rebuild {
+  position: relative;
+  height: 620vh;          /* scroll distance for the whole sequence */
+  background: var(--ink-deep);
+}
+.rebuild-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+.holo,
+.holo-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.holo-fallback {
+  display: grid;
+  place-items: center;
+  padding: 10vh 6vw 30vh 34vw;
+}
+.holo-fallback svg { width: 100%; height: auto; }
+.rebuild.is-3d .holo-fallback { display: none; }
+/* a soft shade behind the words so they stay readable over the hologram */
+.rebuild-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(10, 34, 56, 0.9) 0, rgba(10, 34, 56, 0.55) 28%, transparent 48%);
+  pointer-events: none;
+}
+.rebuild-ui, .callout { z-index: 1; }
+
+/* labels pinned to parts of the 3D car */
+.callout {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: rgba(10, 34, 56, 0.75);
+  font-size: var(--step--1);
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.callout[data-part="engine"] { color: #ff8f73; }
+.callout[data-part="battery"],
+.callout[data-part="motor"] { color: var(--sodium); }
+
+.rebuild-ui {
+  position: absolute;
+  left: var(--gutter);
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(26rem, 34vw);
+  pointer-events: none;
+}
+.rebuild-ui h2 {
+  font-size: var(--step-2);
+  margin-bottom: 2rem;
+}
+.stages {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  counter-reset: step;
-  border-top: 1px solid var(--line);
+  counter-reset: stage;
 }
-.rebuild-steps li {
-  counter-increment: step;
-  padding: 1.5rem 1.5rem 0 0;
+/* all steps share one grid cell; only the active one is shown */
+.stages li {
+  grid-area: 1 / 1;
+  counter-increment: stage;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.4s, transform 0.4s;
 }
-.rebuild-steps li::before {
-  content: counter(step);
+.stages li.is-active { opacity: 1; transform: none; }
+.stages li::before {
+  content: "Step " counter(stage) " of 7";
   display: block;
   font-family: var(--hand);
-  font-size: var(--step-2);
   color: var(--sodium);
-  line-height: 1;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.4rem;
 }
-.rebuild-steps h3 { margin-bottom: 0.5rem; }
-.rebuild-steps p { color: var(--paper-dim); font-size: var(--step--1); }
+.stages h3 { font-size: var(--step-3); margin-bottom: 0.8rem; }
+.stages p { color: var(--paper-dim); max-width: 26rem; }
+
+.rebuild-rail {
+  margin-top: 2rem;
+  height: 3px;
+  width: 100%;
+  background: var(--line);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.rebuild-rail span {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--sodium);
+  transform-origin: left;
+  transform: scaleX(var(--progress, 0));
+}
 
 /* ---------- heart specs ---------- */
 .specs {
@@ -381,21 +470,80 @@ p { margin: 0 0 1em; }
 /* ---------- cars ---------- */
 .car-list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  gap: clamp(3rem, 7vw, 5rem);
 }
 .car-card {
-  border-top: 3px solid var(--paper);
-  padding-top: 1.2rem;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 2rem clamp(2rem, 4vw, 4rem);
+  align-items: center;
 }
-.car-card h3 { font-size: var(--step-2); }
+.car-card:nth-child(even) { grid-template-columns: 1fr 1.6fr; }
+.car-card:nth-child(even) .car-fig { order: 2; }
+
+.car-fig {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 1000 / 420;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: var(--ink);
+  background-image:
+    linear-gradient(rgba(232,238,241,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(232,238,241,.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.car-rebuilt, .car-fig .dust {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.car-rebuilt svg { width: 100%; height: 100%; }
+.car-fig .dust { touch-action: pan-y; cursor: grab; }
+.car-fig .wipe-hint {
+  right: 1rem;
+  top: 0.8rem;
+  font-size: var(--step-0);
+}
+
+.car-info h3 { font-size: var(--step-2); }
 .car-era {
   font-family: var(--hand);
   color: var(--sodium);
   margin: 0.3rem 0 1rem;
 }
-.car-card p { color: var(--paper-dim); }
-.car-card .car-price { color: var(--paper); font-weight: 700; margin-top: 1.4rem; }
+.car-info p { color: var(--paper-dim); }
+.car-changes {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.2rem;
+  font-size: var(--step--1);
+  color: var(--paper);
+}
+.car-changes li { padding: 0.35rem 0; border-top: 1px solid var(--line); }
+.car-changes li::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sodium);
+  margin-right: 0.6rem;
+}
+.car-info .car-price { color: var(--paper); font-weight: 700; margin-bottom: 0.6rem; }
+.car-toggle {
+  background: none;
+  border: 0;
+  padding: 0.4rem 0;
+  min-height: 44px;
+  color: var(--sodium);
+  font: 600 var(--step--1) var(--font);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
 
 /* ---------- story: the one paper section ---------- */
 .story {
@@ -482,11 +630,11 @@ p { margin: 0 0 1em; }
   .story-inner,
   .reserve { grid-template-columns: 1fr; }
   .story h2 { position: static; }
-  .rebuild-steps { grid-template-columns: repeat(2, 1fr); }
   .specs { grid-template-columns: repeat(2, 1fr); }
   .spec:nth-child(3) { padding-left: 0; border-left: 0; }
   .spec:nth-child(n+3) { border-top: 1px solid var(--line); }
-  .car-list { grid-template-columns: 1fr; gap: 2.5rem; }
+  .car-card, .car-card:nth-child(even) { grid-template-columns: 1fr; }
+  .car-card:nth-child(even) .car-fig { order: 0; }
 }
 
 @media (max-width: 720px) {
@@ -510,12 +658,29 @@ p { margin: 0 0 1em; }
   .hero { align-items: end; }
   .hero-car { left: 50%; top: 32%; width: 112vw; }
   .note-a, .note-c { display: none; }
-  .wipe-hint { top: 14%; }
+  .hero .wipe-hint { top: 14%; }
   .features { grid-template-columns: 1fr; }
+
+  /* phones: 3D on top, words at the bottom */
+  .rebuild-ui {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: auto;
+    transform: none;
+    padding: 2.5rem var(--gutter) 1.5rem;
+    background: linear-gradient(transparent, var(--ink-deep) 30%);
+  }
+  .rebuild-ui h2 { display: none; }
+  .rebuild-stage::after { background: linear-gradient(transparent 50%, rgba(10, 34, 56, 0.9) 75%); }
+  .stages h3 { font-size: var(--step-2); margin-bottom: 0.4rem; }
+  .stages p { font-size: var(--step--1); margin: 0; }
+  .rebuild-rail { margin-top: 1rem; }
+  .holo-fallback { padding: 8vh 4vw 40vh; }
 }
 
 @media (max-width: 480px) {
-  .rebuild-steps { grid-template-columns: 1fr; }
   .specs { grid-template-columns: 1fr; }
   .spec + .spec { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
 }

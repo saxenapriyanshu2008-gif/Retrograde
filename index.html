@@ -95,31 +95,52 @@
       </div>
     </section>
 
-    <!-- REBUILD: exploded view. Scroll animation is added on day 2. -->
+    <!-- REBUILD: holographic 3D, driven by scroll. The section is tall and
+         the stage sticks to the screen while you scroll through it. -->
     <section class="rebuild" id="rebuild" aria-labelledby="rebuild-title">
-      <div class="section-head">
-        <h2 id="rebuild-title">Out with the engine. In with a new heart.</h2>
-        <p>Every Retrograde starts as a real car from a scrapyard. We strip it to bare metal, take out the petrol engine and fuel tank, and rebuild it around a battery and motor made this decade.</p>
-      </div>
+      <div class="rebuild-stage">
+        <canvas class="holo" aria-hidden="true"></canvas>
+        <div class="holo-fallback" aria-hidden="true"></div>
 
-      <ol class="rebuild-steps">
-        <li>
-          <h3>Strip</h3>
-          <p>The shell is stripped, rust is cut out, and the floor is rebuilt to carry a battery.</p>
-        </li>
-        <li>
-          <h3>Remove</h3>
-          <p>The old 1.5 litre petrol engine, gearbox and fuel tank come out. Around 240 kg of iron.</p>
-        </li>
-        <li>
-          <h3>Fit</h3>
-          <p>A 52 kWh battery pack goes flat under the floor, so the cabin and boot keep their original space.</p>
-        </li>
-        <li>
-          <h3>Drive</h3>
-          <p>A rear motor drives the car. No exhaust, no oil changes, and no noise at the traffic light.</p>
-        </li>
-      </ol>
+        <p class="callout" data-part="engine" aria-hidden="true">1.5 litre petrol, 240 kg</p>
+        <p class="callout" data-part="battery" aria-hidden="true">52 kWh battery, flat under the floor</p>
+        <p class="callout" data-part="motor" aria-hidden="true">110 kW rear motor</p>
+
+        <div class="rebuild-ui">
+          <h2 id="rebuild-title">Watch a Saloon 62 come back to life.</h2>
+          <ol class="stages">
+            <li class="is-active">
+              <h3>As found</h3>
+              <p>A 1962 saloon, pulled out of a scrapyard in Kanpur. The body is straight. The engine is finished.</p>
+            </li>
+            <li>
+              <h3>Taken apart</h3>
+              <p>Roof, bonnet, boot, doors and wheels come off. We keep every panel and the shape they make.</p>
+            </li>
+            <li>
+              <h3>The old heart</h3>
+              <p>A 1.5 litre petrol engine, a four-speed gearbox, a 40 litre tank and a rusted exhaust. About 240 kg of iron.</p>
+            </li>
+            <li>
+              <h3>Out it goes</h3>
+              <p>Engine, gearbox, tank and exhaust all come out. The iron is sent for recycling, not to a landfill.</p>
+            </li>
+            <li>
+              <h3>The new heart</h3>
+              <p>A 52 kWh battery goes flat under the floor, so the cabin keeps its space. A 110 kW motor drives the rear wheels.</p>
+            </li>
+            <li>
+              <h3>Modern touches</h3>
+              <p>LED ring headlamps, a light bar at the back, aero wheels and a charging port hidden behind the old fuel flap.</p>
+            </li>
+            <li>
+              <h3>Rebuilt</h3>
+              <p>Every panel goes back where it came from. Old shape, new heart. Car number 001 is ready.</p>
+            </li>
+          </ol>
+          <div class="rebuild-rail" aria-hidden="true"><span></span></div>
+        </div>
+      </div>
     </section>
 
     <!-- HEART: what the new electric parts give you -->
@@ -160,31 +181,69 @@
       </ul>
     </section>
 
-    <!-- CARS: three models. Before/after slider is added on day 2. -->
+    <!-- CARS: wipe the dust off each one to see it rebuilt -->
     <section class="cars" id="cars" aria-labelledby="cars-title">
       <div class="section-head">
         <h2 id="cars-title">Three shapes, rebuilt.</h2>
-        <p>Each body comes from a different decade. Every car is numbered, and no two shells have the same history.</p>
+        <p>Each body comes from a different decade. Wipe the glass to see how we found it turn into how we hand it back. New parts are drawn in amber.</p>
       </div>
 
       <div class="car-list">
-        <article class="car-card">
-          <h3>Saloon 62</h3>
-          <p class="car-era">From a 1962 four-door</p>
-          <p>The tall, round family car. Room for five and a boot for a wedding's worth of luggage.</p>
-          <p class="car-price">From ₹18.5 lakh</p>
+        <article class="car-card" data-car="saloon">
+          <figure class="car-fig">
+            <canvas class="dust" aria-hidden="true"></canvas>
+            <p class="wipe-hint" aria-hidden="true">Wipe to rebuild</p>
+          </figure>
+          <div class="car-info">
+            <h3>Saloon 62</h3>
+            <p class="car-era">From a 1962 four-door</p>
+            <p>The tall, round family car. Room for five and a boot for a wedding's worth of luggage.</p>
+            <ul class="car-changes">
+              <li>LED ring headlamps</li>
+              <li>Aero wheels</li>
+              <li>Light bar tail lamps</li>
+            </ul>
+            <p class="car-price">From ₹18.5 lakh</p>
+            <button class="car-toggle" type="button" aria-pressed="false">Show it rebuilt</button>
+          </div>
         </article>
-        <article class="car-card">
-          <h3>Estate 74</h3>
-          <p class="car-era">From a 1974 station wagon</p>
-          <p>A long roof and a flat floor. Made for families, dogs, and trips to the hills.</p>
-          <p class="car-price">From ₹21 lakh</p>
+
+        <article class="car-card" data-car="estate">
+          <figure class="car-fig">
+            <canvas class="dust" aria-hidden="true"></canvas>
+            <p class="wipe-hint" aria-hidden="true">Wipe to rebuild</p>
+          </figure>
+          <div class="car-info">
+            <h3>Estate 74</h3>
+            <p class="car-era">From a 1974 station wagon</p>
+            <p>A long roof and a flat floor. Made for families, dogs and trips to the hills.</p>
+            <ul class="car-changes">
+              <li>Square LED lamps</li>
+              <li>Full height light bar</li>
+              <li>Flat battery, flat floor</li>
+            </ul>
+            <p class="car-price">From ₹21 lakh</p>
+            <button class="car-toggle" type="button" aria-pressed="false">Show it rebuilt</button>
+          </div>
         </article>
-        <article class="car-card">
-          <h3>Coupé 81</h3>
-          <p class="car-era">From a 1981 two-door</p>
-          <p>Low, light and quick. The one you take out on an empty Sunday road.</p>
-          <p class="car-price">From ₹24 lakh</p>
+
+        <article class="car-card" data-car="coupe">
+          <figure class="car-fig">
+            <canvas class="dust" aria-hidden="true"></canvas>
+            <p class="wipe-hint" aria-hidden="true">Wipe to rebuild</p>
+          </figure>
+          <div class="car-info">
+            <h3>Coupé 81</h3>
+            <p class="car-era">From a 1981 two-door</p>
+            <p>Low, light and quick. The one you take out on an empty Sunday road.</p>
+            <ul class="car-changes">
+              <li>Slim LED strip lamps</li>
+              <li>Lower, slimmer bumpers</li>
+              <li>Hidden charging port</li>
+            </ul>
+            <p class="car-price">From ₹24 lakh</p>
+            <button class="car-toggle" type="button" aria-pressed="false">Show it rebuilt</button>
+          </div>
         </article>
       </div>
     </section>
@@ -246,6 +305,7 @@
   </footer>
 
   <script src="js/dust.js" defer></script>
+  <script src="js/cars.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>
