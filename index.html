@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Retrograde | Old shape. New heart.</title>
+  <meta name="description" content="Retrograde rebuilds India's classic cars as sealed electric saloons made to drive through the monsoon.">
+  <meta name="theme-color" content="#123B5E">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Architects+Daughter&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="nav" id="top">
+    <a class="wordmark" href="#top" aria-label="Retrograde home">Retrograde</a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links">Menu</button>
+    <nav id="nav-links" class="nav-links" aria-label="Main">
+      <a href="#rebuild">The rebuild</a>
+      <a href="#monsoon">Monsoon</a>
+      <a href="#cars">The cars</a>
+      <a href="#story">Our story</a>
+      <a class="nav-cta" href="#reserve">Reserve</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- HERO: blueprint car behind fogged glass. Wipe to see it. -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-grid" aria-hidden="true"></div>
+
+      <figure class="hero-car" aria-hidden="true">
+        <!-- Original drawing: a generic 1960s saloon side view, facing left -->
+        <svg viewBox="0 0 1000 420" class="car-drawing">
+          <g class="car-body">
+            <!-- outer body with two wheel arches -->
+            <path d="M100 310 C88 300 84 270 92 250 C100 228 125 214 170 208 L395 194 C420 160 445 130 478 118 C540 104 640 104 700 116 C740 130 770 160 792 192 L905 204 C930 210 940 240 932 280 L925 310 L829 310 A74 74 0 0 0 691 310 L299 310 A74 74 0 0 0 161 310 Z"/>
+            <!-- windows and pillar -->
+            <path d="M412 196 C434 165 454 141 484 129 C540 117 630 117 688 127 C720 141 746 166 766 192 Z"/>
+            <path d="M588 122 L588 194"/>
+            <!-- belt line, door cuts, handles -->
+            <path d="M170 214 L905 210" class="thin"/>
+            <path d="M405 198 L405 306 M588 196 L588 306 M700 192 L700 290" class="thin"/>
+            <path d="M548 228 h26 M662 226 h26"/>
+            <!-- headlamp, grille, bumpers -->
+            <circle cx="114" cy="243" r="14"/>
+            <circle cx="114" cy="243" r="7" class="thin"/>
+            <path d="M96 268 v24 M104 266 v28 M112 266 v28" class="thin"/>
+            <rect x="74" y="292" width="72" height="14" rx="7"/>
+            <rect x="896" y="290" width="54" height="14" rx="7"/>
+            <circle cx="922" cy="244" r="8" class="thin"/>
+          </g>
+          <g class="car-wheels">
+            <circle cx="230" cy="337" r="58"/>
+            <circle cx="230" cy="337" r="26" class="thin"/>
+            <circle cx="230" cy="337" r="5"/>
+            <circle cx="760" cy="337" r="58"/>
+            <circle cx="760" cy="337" r="26" class="thin"/>
+            <circle cx="760" cy="337" r="5"/>
+          </g>
+          <!-- new heart: battery under the floor, motor at the rear -->
+          <g class="car-heart">
+            <rect x="300" y="286" width="390" height="24" rx="3"/>
+            <path d="M330 286 v24 M370 286 v24 M410 286 v24 M450 286 v24 M490 286 v24 M530 286 v24 M570 286 v24 M610 286 v24 M650 286 v24" class="thin"/>
+            <circle cx="760" cy="238" r="16"/>
+            <path d="M760 254 V279" class="thin"/>
+          </g>
+          <!-- ground and dimension line -->
+          <g class="car-ground">
+            <path d="M30 396 H970" class="thin"/>
+            <path d="M960 310 V396 M952 310 h16 M952 396 h16" class="thin"/>
+          </g>
+        </svg>
+        <figcaption class="note note-a">Body: 1962 saloon shell, kept</figcaption>
+        <figcaption class="note note-b">Heart: sealed 52 kWh pack, new</figcaption>
+        <figcaption class="note note-c">Ground clearance 210 mm</figcaption>
+      </figure>
+
+      <canvas class="fog" aria-hidden="true"></canvas>
+      <p class="wipe-hint" aria-hidden="true">Wipe the glass</p>
+
+      <div class="hero-copy">
+        <h1 id="hero-title" class="hero-title">
+          <span>Old shape.</span>
+          <span>New heart.</span>
+        </h1>
+        <p class="hero-sub">We rebuild India's classic cars as sealed electric saloons that keep driving when the streets turn to rivers.</p>
+        <div class="hero-actions">
+          <a class="btn btn-solid" href="#reserve">Reserve a build slot</a>
+          <a class="btn btn-line" href="#rebuild">See how we rebuild</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- REBUILD: exploded view. Scroll animation is added on day 2. -->
+    <section class="rebuild" id="rebuild" aria-labelledby="rebuild-title">
+      <div class="section-head">
+        <h2 id="rebuild-title">Out with the engine. In with a sealed heart.</h2>
+        <p>Every Retrograde starts as a real car from a scrapyard. We strip it to bare metal, take out the petrol engine and fuel tank, and rebuild it around parts that do not mind water.</p>
+      </div>
+
+      <ol class="rebuild-steps">
+        <li>
+          <h3>Strip</h3>
+          <p>The shell is stripped, rust is cut out, and the floor is rebuilt to carry a battery.</p>
+        </li>
+        <li>
+          <h3>Remove</h3>
+          <p>The old 1.5 litre petrol engine, gearbox and fuel tank come out. Around 240 kg of iron.</p>
+        </li>
+        <li>
+          <h3>Seal</h3>
+          <p>A 52 kWh battery pack goes under the floor in an IP68 sealed case. It can sit under water for 30 minutes.</p>
+        </li>
+        <li>
+          <h3>Drive</h3>
+          <p>A sealed rear motor drives the car. No air intake, no exhaust, nothing for water to flood.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- MONSOON: the features from the rain idea -->
+    <section class="monsoon" id="monsoon" aria-labelledby="monsoon-title">
+      <div class="section-head">
+        <h2 id="monsoon-title">Made for the months everyone else stays home.</h2>
+        <p>Old Indian saloons were tall, simple, and famous for getting through flooded roads. We kept the height and fixed everything else.</p>
+      </div>
+
+      <dl class="specs">
+        <div class="spec">
+          <dt>Wading depth</dt>
+          <dd><span class="spec-num">600</span> mm</dd>
+          <p>Water up to the door sills. The car keeps going.</p>
+        </div>
+        <div class="spec">
+          <dt>Ground clearance</dt>
+          <dd><span class="spec-num">210</span> mm</dd>
+          <p>Raised over the original, for broken roads and speed breakers.</p>
+        </div>
+        <div class="spec">
+          <dt>Battery seal</dt>
+          <dd><span class="spec-num">IP68</span></dd>
+          <p>Fully sealed against dust and long submersion.</p>
+        </div>
+        <div class="spec">
+          <dt>Range</dt>
+          <dd><span class="spec-num">280</span> km</dd>
+          <p>A full week of city driving on one charge.</p>
+        </div>
+      </dl>
+
+      <ul class="features">
+        <li><strong>Flood sense.</strong> Sensors in the front bumper read how deep the water ahead is and tell you before you drive in.</li>
+        <li><strong>Clear glass.</strong> Water-repellent coating on every window, and a heated windscreen that clears fog in seconds.</li>
+        <li><strong>Drain channels.</strong> Door sills and floor drain on their own, so water never sits inside.</li>
+        <li><strong>Sealed cabin plugs.</strong> Charging port and every cable joint are rated for rain and standing water.</li>
+      </ul>
+    </section>
+
+    <!-- CARS: three models. Before/after slider is added on day 2. -->
+    <section class="cars" id="cars" aria-labelledby="cars-title">
+      <div class="section-head">
+        <h2 id="cars-title">Three shapes, rebuilt.</h2>
+        <p>Each body comes from a different decade. Every car is numbered, and no two shells have the same history.</p>
+      </div>
+
+      <div class="car-list">
+        <article class="car-card">
+          <h3>Saloon 62</h3>
+          <p class="car-era">From a 1962 four-door</p>
+          <p>The tall, round family car. Room for five, a boot for a wedding's worth of luggage.</p>
+          <p class="car-price">From ₹18.5 lakh</p>
+        </article>
+        <article class="car-card">
+          <h3>Estate 74</h3>
+          <p class="car-era">From a 1974 station wagon</p>
+          <p>A long roof and a flat floor. Made for families, dogs, and trips to the hills.</p>
+          <p class="car-price">From ₹21 lakh</p>
+        </article>
+        <article class="car-card">
+          <h3>Coupé 81</h3>
+          <p class="car-era">From a 1981 two-door</p>
+          <p>Low, light and quick. The one you take out when the first rain hits.</p>
+          <p class="car-price">From ₹24 lakh</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- STORY -->
+    <section class="story" id="story" aria-labelledby="story-title">
+      <div class="story-inner">
+        <h2 id="story-title">It started with a car in the water.</h2>
+        <div class="story-text">
+          <p>Every monsoon we saw the same picture. New cars stalled in knee-deep water, hazard lights blinking. And somewhere in the middle, an old saloon from the sixties, slowly driving through.</p>
+          <p>Those old cars were tall and simple. What stopped them in the end was not the rain. It was the engine: old, thirsty, and hard to fix.</p>
+          <p>So we asked a simple question. What if we kept the shape everyone loves and gave it a heart that water cannot reach?</p>
+          <p>Retrograde is that answer. We rescue shells from scrapyards across India and rebuild them one at a time. Old shape, new heart, ready for the rain.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESERVE / CONTACT -->
+    <section class="reserve" id="reserve" aria-labelledby="reserve-title">
+      <div class="reserve-copy">
+        <h2 id="reserve-title">Reserve a build slot.</h2>
+        <p>We build 40 cars a year. A refundable ₹25,000 deposit holds your place in the queue. A rebuild takes about 14 weeks.</p>
+        <address>
+          Retrograde Workshop<br>
+          Shed 4, Industrial Estate<br>
+          Pune, Maharashtra<br>
+          <a href="mailto:hello@retrograde.example">hello@retrograde.example</a>
+        </address>
+      </div>
+
+      <form class="reserve-form" novalidate>
+        <label>Your name
+          <input type="text" name="name" autocomplete="name" required>
+        </label>
+        <label>Email or phone
+          <input type="text" name="contact" autocomplete="email" required>
+        </label>
+        <label>Which car
+          <select name="model">
+            <option>Saloon 62</option>
+            <option>Estate 74</option>
+            <option>Coupé 81</option>
+            <option>Not sure yet</option>
+          </select>
+        </label>
+        <label>Your city
+          <input type="text" name="city" autocomplete="address-level2">
+        </label>
+        <button class="btn btn-solid" type="submit">Reserve my slot</button>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="wordmark">Retrograde</p>
+    <p>A fictional brand made for the ACM Technical Team Round 2. All drawings are original.</p>
+    <a href="#top">Back to top</a>
+  </footer>
+
+  <script src="js/fog.js" defer></script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>
