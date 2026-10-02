@@ -42,7 +42,20 @@ Why dust: every Retrograde starts as a barn find. Wiping the dust off the glass 
 - Performance: the loop stops when the hero is off screen or the tab is hidden, and the canvas resolution is capped at 1.5x.
 - Accessibility: with reduced motion, there is no animation, just one clear patch over the car. The headline is never covered.
 
-## Still to build
+## The cars: wipe to rebuild (the dust idea, used again)
 
-- Day 2: scroll-driven exploded view (engine out, battery in), and a dust wipe on each car card to reveal it restored.
-- Day 3: mobile polish, Lighthouse pass, deploy.
+- Three original side views, one per decade: a round 1960s saloon, a long-roof 1970s estate and a wedge 1980s coupé. Proportions were based on general reference photos of cars from each era. No real model is copied.
+- `js/cars.js` stores each car as data: body lines, plus an `old` set (chrome bumpers, old lamps, hubcaps, rust, a cracked window, one missing hubcap) and a `new` set (LED lamps, light bar, aero wheels, charge port).
+- The rebuilt drawing sits in the page. The "as found" drawing is turned into an image and painted into the dust, so wiping the glass swaps old for new.
+- Each card has a "Show it rebuilt" button, so keyboard and screen reader users get the same change.
+
+## The rebuild: holographic 3D (scroll-driven animation)
+
+- `js/rebuild3d.js`, built with Three.js. The section is 620vh tall and the stage is `position: sticky`, so scrolling moves through the timeline while the car stays on screen.
+- The 3D car is made from the **same outlines as the SVG drawing**: each outline becomes a `THREE.Shape` and is extruded to give it width. So the 2D and 3D cars always match.
+- Every part is a hologram: a faint additive fill plus glowing edges from `EdgesGeometry`.
+- Colour rule in 3D: cyan is the body we keep, red is the old parts we remove, amber is the new parts we add.
+- Timeline: as found, taken apart, old engine glows red, old parts leave (engine lifted out, the rest dropped), battery rises in and motor slides in, modern touches (LED rings, light bar, aero wheels, charge port), panels go back.
+- The camera moves between one key position per step. The scroll value is smoothed a little so the motion feels mechanical.
+- HTML labels are pinned to the 3D parts by projecting a 3D point to the screen each frame.
+- Performance: Three.js only loads after the first scroll, touch or key press, so it does not slow the first load. Rendering stops when the section is off screen. If WebGL is missing, a flat drawing is shown instead.

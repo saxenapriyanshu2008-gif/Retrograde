@@ -15,7 +15,8 @@ The site looks like a cyanotype restoration blueprint seen through the dusty win
 ## Tech stack
 
 - Plain HTML, CSS and JavaScript. No framework, no build step.
-- Canvas 2D for the dusty windscreen and floating dust.
+- Canvas 2D for the dusty windscreen and the wipe-to-rebuild car cards.
+- Three.js (r160) for the holographic, scroll-driven rebuild. Bundled in `vendor/`, loaded on first interaction.
 - Google Fonts: Archivo (variable width) and Architects Daughter.
 - Hosting: Vercel (static).
 
@@ -30,7 +31,8 @@ python3 -m http.server 8080
 
 - **Archivo** by Omnibus-Type, SIL Open Font License, via Google Fonts.
 - **Architects Daughter** by Kimberly Geswein, SIL Open Font License, via Google Fonts.
-- All car drawings, icons and the favicon are original SVG made for this project.
+- **Three.js** r160, MIT License (`vendor/three-LICENSE.txt`).
+- All car drawings, the 3D car, icons and the favicon are original, made in code for this project. General reference photos of 1960s to 1980s cars were looked at for proportions only. No photos or third-party models are used on the site.
 - Retrograde, its cars, prices and address are fictional.
 
 See [DESIGN.md](DESIGN.md) for the design decisions.
