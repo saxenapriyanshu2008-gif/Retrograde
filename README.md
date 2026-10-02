@@ -15,7 +15,7 @@ The site feels like opening a black watch box: one object at a time on black vel
 ## Tech stack
 
 - Plain HTML, CSS and JavaScript. No framework, no build step.
-- SVG for the live watch faces (real time, real moon phase and tithi).
+- Product images rendered from our own Three.js watch model with `tools/render.html` (five models, photoreal materials and leather straps), saved as WebP.
 - CSS 3D transforms for the hero watch that tilts toward the cursor.
 - Three.js r160 for the scroll-driven exploded watch: physical materials, a studio environment map and a bloom pass. Loaded only after the first scroll or tap.
 - Google Fonts: Bodoni Moda, Instrument Sans, Tiro Devanagari Hindi.
@@ -32,7 +32,8 @@ python3 -m http.server 8080
 
 - **Bodoni Moda** (indestructible type*), **Instrument Sans** (Instrument), **Tiro Devanagari Hindi** (Tiro Typeworks). All SIL Open Font License, via Google Fonts.
 - **Three.js** r160 and its addons (RoomEnvironment, RoundedBoxGeometry, EffectComposer, UnrealBloomPass, OutputPass), MIT License, see `vendor/three-LICENSE.txt`.
-- All watch faces, the 3D watch, textures and the favicon are original and made in code for this project. No photos or third-party models are used. A published exploded-view diagram of a dive watch was used only as a layout reference for how parts stack.
+- **Smartwatch video** on the Nimesh card: free stock video from Pexels (video 11148471), used under the Pexels License, trimmed and cropped.
+- All analog watch images, the 3D watch, its textures and the favicon are original and made in code for this project. A published exploded-view diagram of a dive watch was used only as a layout reference for how parts stack.
 - Vela, its watches, prices and address are fictional.
 
 See [DESIGN.md](DESIGN.md) for the design decisions.

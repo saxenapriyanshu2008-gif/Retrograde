@@ -163,65 +163,24 @@ p { margin: 0 0 1em; }
   position: relative;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
   transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
   transform-style: preserve-3d;
   transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
   filter: drop-shadow(0 40px 50px rgba(0, 0, 0, 0.8));
 }
 .tilt.is-moving .tilt-body { transition: transform 0.12s linear; }
-.dial, .dial svg { width: 100%; height: 100%; }
-/* light from the window, sliding across the sapphire as the watch turns */
-.glint {
-  position: absolute;
-  inset: 4.5%;
-  border-radius: 50%;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at var(--gx, 30%) var(--gy, 25%), rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.06) 22%, transparent 45%),
-    linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.07) 48%, transparent 56%);
-  mix-blend-mode: screen;
-}
 .hero-caption { margin: 0; color: var(--dim); font-size: var(--step--1); }
 .hero-caption span { color: var(--brass-hi); margin-left: 0.4rem; }
 
-/* ---------- live faces: shared svg styles ---------- */
-.face .tk { stroke: #6b6b6b; stroke-width: 1.2; }
-.face .tk-b { stroke: #c9c9c9; stroke-width: 2.2; }
-.face .tk-d { stroke: #77736b; stroke-width: 1.2; }
-.face .tk-db { stroke: #1d1c1a; stroke-width: 2.4; }
-.face .brass { fill: #c8a46a; }
-.face .steelfill { fill: #d6d6d4; }
-.face .goldfill { fill: #e2c487; }
-.face .brand { font-family: var(--display); font-size: 22px; font-weight: 600; letter-spacing: 6px; text-anchor: middle; fill: #ecebe7; }
-.face .brand.dark { fill: #1a1917; }
-.face .sub { font-family: var(--body); font-size: 10px; letter-spacing: 2.4px; text-anchor: middle; fill: #9b988f; }
-.face .sub.dark { fill: #6d6a63; }
-.face .deva-s { font-family: var(--deva); font-size: 14px; text-anchor: middle; fill: #c8a46a; }
-.face .num { font-family: var(--display); font-size: 34px; text-anchor: middle; fill: #1a1917; }
-.face .seg { fill: #2a2a2a; }
-.face .seg.on { fill: #e7cb94; }
-.face .brass-hand { fill: #d9b97d; stroke: #8a6a37; stroke-width: 0.8; }
-.face .steel-hand { fill: #e6e6e4; stroke: #77787b; stroke-width: 0.8; }
-.face .gold-hand { fill: #ecd29c; stroke: #8a6a37; stroke-width: 0.8; }
-.face .silver-hand { fill: #e9e9e7; stroke: #8d8d8d; stroke-width: 0.8; }
-.face .ink-hand { fill: #1a1917; }
-.face .sec { stroke: #d2553a; stroke-width: 2; }
-.face .sec-dot { fill: #d2553a; }
-.face .sec-gold { stroke: #ecd29c; stroke-width: 1.6; }
-.face .gold-dot { fill: #ecd29c; }
-.face .sec-silver { stroke: #e9e9e7; stroke-width: 1.6; }
-.face .silver-dot { fill: #e9e9e7; }
-.face .inlay { fill: none; stroke: #dcdcdc; stroke-width: 2.6; }
-.face .inlay-thin { fill: none; stroke: #bdbdbd; stroke-width: 1.2; }
-.face .inlay-fill { fill: #d4d4d4; }
-.face .tithi { font-family: var(--body); font-size: 11px; text-anchor: middle; fill: #6f6a5f; }
-.face .tithi.now { fill: #e7cb94; font-weight: 700; }
-.face .lcd-label { font-family: var(--body); font-size: 12px; letter-spacing: 3px; text-anchor: middle; fill: #8d8a83; }
-.face .lcd-big { font-family: var(--body); font-size: 84px; font-weight: 500; text-anchor: middle; fill: #ecebe7; font-variant-numeric: tabular-nums; }
-.face .lcd-small { font-family: var(--body); font-size: 15px; letter-spacing: 2px; text-anchor: middle; fill: #9b988f; font-variant-numeric: tabular-nums; }
-.face .brassfill { fill: #c8a46a; }
-.face .lcd-rule { stroke: #2a2a2a; stroke-width: 1; }
+/* ---------- product images ---------- */
+.line-face img, .line-face video, .piece-face img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.line-face video { object-fit: cover; border-radius: 6px; }
+.hero-img { width: 100%; height: auto; display: block; }
+/* straps fade into the black instead of stopping at the image edge */
+.hero-img, .line-face img, .piece-face img {
+  -webkit-mask-image: radial-gradient(closest-side at 50% 48%, #000 70%, transparent 100%);
+  mask-image: radial-gradient(closest-side at 50% 48%, #000 70%, transparent 100%);
+}
 
 /* ---------- inside: sticky 3D stage ---------- */
 .inside {
@@ -242,7 +201,7 @@ p { margin: 0 0 1em; }
   height: 100%;
 }
 .inside-fallback { display: grid; place-items: center; padding: 14vh 6vw 14vh 40vw; }
-.inside-fallback svg { width: min(100%, 60vh); height: auto; }
+.inside-fallback img { width: min(100%, 70vh); height: auto; }
 .inside.is-3d .inside-fallback { display: none; }
 
 /* shade behind the words so they read over the watch */

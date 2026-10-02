@@ -14,8 +14,7 @@
 
   /* ---------- hero: the watch turns toward your cursor ---------- */
   // Move the mouse anywhere in the hero and the watch tilts to face it,
-  // like picking one up off a tray. The glint on the glass moves the
-  // other way, as light from a window would.
+  // like picking one up off a tray.
   const hero = document.querySelector(".hero");
   const tilt = hero.querySelector(".tilt");
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -31,13 +30,11 @@
         tilt.classList.add("is-moving");
         tilt.style.setProperty("--ry", `${(x * 18).toFixed(2)}deg`);
         tilt.style.setProperty("--rx", `${(-y * 14).toFixed(2)}deg`);
-        tilt.style.setProperty("--gx", `${(50 - x * 35).toFixed(1)}%`);
-        tilt.style.setProperty("--gy", `${(45 - y * 30).toFixed(1)}%`);
       });
     });
     hero.addEventListener("pointerleave", () => {
       tilt.classList.remove("is-moving");
-      ["--rx", "--ry", "--gx", "--gy"].forEach((v) => tilt.style.removeProperty(v));
+      ["--rx", "--ry"].forEach((v) => tilt.style.removeProperty(v));
     });
   }
 
@@ -69,8 +66,14 @@
 
   // a flat dial is shown if WebGL is not available
   const fallback = inside.querySelector(".inside-fallback");
-  const heroDial = document.querySelector(".hero .dial svg");
-  if (heroDial) fallback.appendChild(heroDial.cloneNode(true));
+  const heroImg = document.querySelector(".hero-img");
+  if (heroImg) fallback.appendChild(heroImg.cloneNode(true));
+
+  // play the Nimesh video only while it is on screen
+  document.querySelectorAll(".line-face video").forEach((v) => {
+    if (reduce) return; // keep the poster frame for people who prefer less motion
+    new IntersectionObserver(([e]) => { e.isIntersecting ? v.play().catch(() => {}) : v.pause(); }).observe(v);
+  });
 
   // Load Three.js only after the visitor starts using the page, so the
   // first load stays small and fast.

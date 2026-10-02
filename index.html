@@ -28,7 +28,7 @@
   </header>
 
   <main id="main">
-    <!-- HERO: a live watch that tilts toward your cursor, with a moving glint -->
+    <!-- HERO: the Ghati 01, which tilts toward your cursor -->
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-copy">
         <h1 id="hero-title" class="hero-title">Watches for every kind of time.</h1>
@@ -42,8 +42,7 @@
       <div class="hero-watch">
         <figure class="tilt">
           <div class="tilt-body">
-            <div class="dial" data-face="hero" role="img" aria-label="A Vela Ghati 01 dial showing the current time"></div>
-            <span class="glint" aria-hidden="true"></span>
+            <img class="hero-img" src="assets/renders/ghati-hero.webp" width="1100" height="1100" alt="Vela Ghati 01 automatic in steel with a black dial, ceramic dive bezel and black leather strap" fetchpriority="high">
           </div>
         </figure>
         <p class="hero-caption">Ghati 01 Automatic, 40 mm. <span>₹62,000</span></p>
@@ -107,17 +106,19 @@
 
       <div class="lines">
         <article class="line">
-          <div class="line-face" data-face="nimesh" role="img" aria-label="Nimesh digital watch showing the current time"></div>
+          <div class="line-face">
+            <video src="assets/video/nimesh.mp4" poster="assets/video/nimesh-poster.jpg" width="640" height="640" muted loop playsinline preload="none" aria-label="Nimesh smartwatches in five strap colours"></video>
+          </div>
           <div class="line-text">
             <h3>Nimesh <span class="deva" lang="hi">निमेष</span></h3>
             <p class="unit">A blink of an eye</p>
-            <p>Digital. Solar charged, lit at the turn of a wrist, with a stopwatch that counts to the hundredth.</p>
+            <p>Smart and digital. An always-on AMOLED screen, heart rate, calls, and a week on one charge. Five strap colours.</p>
             <p class="price">From ₹8,900</p>
           </div>
         </article>
 
         <article class="line">
-          <div class="line-face" data-face="pal" role="img" aria-label="Pal analog watch showing the current time"></div>
+          <div class="line-face"><img src="assets/renders/pal.webp" width="800" height="800" loading="lazy" alt="Vela Pal quartz watch, steel case, cream dial, brown leather strap"></div>
           <div class="line-text">
             <h3>Pal <span class="deva" lang="hi">पल</span></h3>
             <p class="unit">24 seconds</p>
@@ -127,17 +128,17 @@
         </article>
 
         <article class="line">
-          <div class="line-face" data-face="ghati" role="img" aria-label="Ghati mechanical watch with an open heart showing the balance wheel"></div>
+          <div class="line-face"><img src="assets/renders/ghati.webp" width="800" height="800" loading="lazy" alt="Vela Ghati 01 automatic, steel dive case, black sunburst dial"></div>
           <div class="line-text">
             <h3>Ghati <span class="deva" lang="hi">घटी</span></h3>
             <p class="unit">24 minutes</p>
-            <p>Mechanical automatic. An open window at nine o'clock lets you see the balance wheel beat.</p>
+            <p>Mechanical automatic. A 300 m dive case, ceramic bezel, and a sapphire back so you can watch the movement.</p>
             <p class="price">From ₹62,000</p>
           </div>
         </article>
 
         <article class="line line-kalpa">
-          <div class="line-face" data-face="kalpa" role="img" aria-label="Kalpa watch with a hand inlaid silver dial"></div>
+          <div class="line-face"><img src="assets/renders/bidri.webp" width="800" height="800" loading="lazy" alt="Vela Kalpa in yellow gold with a silver inlaid Bidri dial"></div>
           <div class="line-text">
             <h3>Kalpa <span class="deva" lang="hi">कल्प</span></h3>
             <p class="unit">4.32 billion years</p>
@@ -158,7 +159,7 @@
 
         <ul class="pieces">
           <li class="piece">
-            <div class="piece-face" data-face="bidri" role="img" aria-label="Bidri dial with silver inlay on blackened metal"></div>
+            <div class="piece-face"><img src="assets/renders/bidri.webp" width="800" height="800" loading="lazy" alt="Kalpa Bidri: gold case, black dial with a hand inlaid silver rosette"></div>
             <h3>Kalpa Bidri</h3>
             <p>A dial in Bidriware from Bidar, Karnataka. Pure silver wire is hammered into blackened zinc alloy by hand.</p>
             <dl class="piece-facts">
@@ -167,7 +168,7 @@
             </dl>
           </li>
           <li class="piece">
-            <div class="piece-face" data-face="ulka" role="img" aria-label="Meteorite dial with crystal pattern"></div>
+            <div class="piece-face"><img src="assets/renders/ulka.webp" width="800" height="800" loading="lazy" alt="Kalpa Ulka: gold case, etched meteorite dial"></div>
             <h3>Kalpa Ulka</h3>
             <p>A dial cut from an iron meteorite. Acid etching brings out the crystal pattern that formed in space as it cooled.</p>
             <dl class="piece-facts">
@@ -176,7 +177,7 @@
             </dl>
           </li>
           <li class="piece">
-            <div class="piece-face" data-face="jantar" role="img" aria-label="Astronomical dial with moon phase and tithi ring"></div>
+            <div class="piece-face"><img src="assets/renders/jantar.webp" width="800" height="800" loading="lazy" alt="Kalpa Jantar: gold case, night blue dial with moon phase and a ring of 30 tithis"></div>
             <h3>Kalpa Jantar</h3>
             <p>Shows the moon phase and the tithi, the lunar day of the Indian calendar. Inspired by the Jantar Mantar observatories.</p>
             <dl class="piece-facts">
@@ -256,7 +257,6 @@
     <a href="#top">Back to top</a>
   </footer>
 
-  <script src="js/faces.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>

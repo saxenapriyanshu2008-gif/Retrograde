@@ -43,7 +43,13 @@ Opening a black watch box: one object at a time on black velvet, lit from above.
 - The balance wheel swings at 4 Hz, the gear train turns, and the rotor spins while in focus.
 - Performance: Three.js loads only after the first scroll, tap or key press. Rendering stops when the section is off screen. Pixel ratio is capped. Without WebGL, a flat dial is shown.
 
+## Product images
+
+- Every analog watch photo on the site is a render of our own 3D model, made with `tools/render.html`. The same `buildWatch()` code makes five models by changing options: dial (Ghati, Pal, Bidri, Ulka, Jantar), case metal (steel or 18k gold), bezel (dive or plain polished), hands, and strap colour.
+- Renders use a studio environment map, ACES tone mapping and a transparent background, with hands at 10:10 like a shop photo. They are saved as WebP at 40 to 60 KB each.
+- This keeps every image original and free to use, which the brief asks for, and it means the photos and the 3D section always show the same watch.
+- The Nimesh smartwatch uses a free Pexels stock clip, cropped square, muted, and played only while on screen.
+
 ## Collections and Kalpa
 
-- Every face is live SVG: Nimesh shows digital time, seconds and the date, Pal is a light quartz dial, Ghati has an open heart with a beating balance wheel.
-- Kalpa pieces: Bidri (silver inlay rosette), Ulka (meteorite crystal pattern drawn procedurally) and Jantar (real moon phase and the current tithi, worked out from the date).
+- Kalpa pieces: Bidri (silver inlay rosette), Ulka (meteorite crystal pattern drawn procedurally) and Jantar (moon phase and a ring of 30 tithis).
