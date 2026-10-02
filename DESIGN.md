@@ -1,61 +1,49 @@
 # Design decisions
 
-Notes for the presentation. Each choice has a reason tied to the brand.
+Notes for the presentation. Every choice ties back to the brand.
 
 ## The idea in one line
 
-A restoration blueprint seen through the dusty windscreen of a barn find.
+Opening a black watch box: one object at a time on black velvet, lit from above.
+
+## Name and story
+
+- **Pahar** is the old Indian unit for one eighth of a day (3 hours).
+- Each collection is named after a unit of time that matches what it is for: **Nimesh** (a blink) for digital, **Pal** (24 s) for quartz, **Ghati** (24 min) for mechanical, **Kalpa** (4.32 billion years) for the rare handcrafted line.
+- The "Our time" table shows the real unit ladder: 1 day = 8 pahar = 60 ghati, 1 ghati = 60 pal, 1 pal = 60 vipal.
 
 ## Colour
 
 | Token | Hex | Why |
 |---|---|---|
-| `--ink` | `#123b5e` | Cyanotype blue. Restoration work starts from drawings, and old blueprints were this blue. |
-| `--ink-deep` | `#0a2238` | Night. Used for depth, the dust layer and the footer. |
-| `--paper` | `#e8eef1` | Cool blueprint paper. Not cream, because cream reads as "vintage template". |
-| `--paper-dim` | `#a9bccb` | Secondary text. Still passes contrast on the blue. |
-| `--sodium` | `#f2a33a` | The sodium lamp over a scrapyard at night. The only accent. |
-
-Rule: **amber always means "new"**. The battery and motor in the drawings are amber, the old body is white. Buttons are amber because reserving is the new step for the user too.
+| `--black` | `#000000` | The velvet inside a watch box. Pure black lets polished steel and brass glow. |
+| `--tray` | `#0b0b0a` | Raised trays: the Kalpa section and the footer. |
+| `--white` | `#ecebe7` | Dial white, slightly warm so it is not harsh on black. |
+| `--dim` | `#9b988f` | Secondary text, like small print on a dial. |
+| `--brass` | `#c8a46a` | Applied indices and hands. The only accent. |
 
 ## Type
 
-- **Archivo**, one family. Expanded width (125) for headlines, like the stretched badges on old car boots. Normal width (100) for reading.
-- **Architects Daughter**, only for notes written on drawings, like a draughtsman's handwriting. Never for body text.
-- Scale ratio 1.333 (perfect fourth). Body lines kept under about 70 characters.
+- **Bodoni Moda** for headings: high-contrast numerals like the ones printed on classic dials.
+- **Instrument Sans** for reading and for digital displays.
+- **Tiro Devanagari Hindi** for the unit names (पहर, घटी, पल), so the Indian side of the brand is visible, not just mentioned.
 
-## Layout
+## Hero: fogged sapphire (custom interactive element)
 
-- Most sections are blue. The **story** is the only paper-coloured section, so it reads like a page pulled out of the workshop file.
-- The rebuild steps are numbered because they are a real sequence. Specs and features are not numbered because they are not.
-- No cards with shadows. Sections are separated by thin rule lines, like a technical drawing.
+- A live dial in SVG (`js/faces.js`): hands show the real time, the seconds hand sweeps in 8 beats a second like a 28,800 vph movement, and a small ring at six o'clock lights the current pahar.
+- Over it, `js/fog.js` paints fog into an offscreen canvas. Moving the cursor erases soft circles with `destination-out`. The fog slowly returns, like breath on glass.
+- Under the watch, the current time is shown in pahar, ghati and pal, counted from 6 am.
 
-## The hero: dusty windscreen (custom interactive element)
+## Inside: exploded 3D watch (scroll-driven animation)
 
-Why dust: every Retrograde starts as a barn find. Wiping the dust off the glass is the first thing you do when you find an old car, so the interaction tells the brand story without words.
+- `js/watch3d.js`, Three.js. The section is 800vh tall and its stage is `position: sticky`.
+- The watch is built in code: lathe-turned case and caseback, a bezel with 60 grip notches, a ceramic insert printed with eight pahar numerals, a domed sapphire crystal (`transmission`), a sunburst dial texture with 3D applied indices, gold hands showing the real time, and a movement with toothed gears, ruby jewels, blued screws, a balance wheel with hairspring, and a gold rotor.
+- Materials are physical (metalness, roughness, clearcoat) and lit by a studio environment map, so steel reflects like steel. A gentle bloom pass adds glow to polished edges.
+- Timeline: product shot, then the stack opens vertically along the watch's axis with labelled leader lines (like a technical drawing). Then each key part flies out of the stack toward you, turns to face you, gets a brass hologram outline and a label, and goes back. Finally everything reassembles.
+- The balance wheel swings at 4 Hz, the gear train turns, and the rotor spins while in focus.
+- Performance: Three.js loads only after the first scroll, tap or key press. Rendering stops when the section is off screen. Pixel ratio is capped. Without WebGL, a flat dial is shown.
 
-- `js/dust.js` keeps the dust in an offscreen canvas called `mask`.
-- Moving the cursor erases a soft circle from the mask with `globalCompositeOperation = "destination-out"`.
-- Every third frame a very small amount of dust settles back, so the glass never stays fully clean.
-- Dust motes drift upward in front of the glass, lit amber like dust in lamp light.
-- On load, one scripted wipe crosses the car, so phone users see it right away and learn what the glass does.
-- Performance: the loop stops when the hero is off screen or the tab is hidden, and the canvas resolution is capped at 1.5x.
-- Accessibility: with reduced motion, there is no animation, just one clear patch over the car. The headline is never covered.
+## Collections and Kalpa
 
-## The cars: wipe to rebuild (the dust idea, used again)
-
-- Three original side views, one per decade: a round 1960s saloon, a long-roof 1970s estate and a wedge 1980s coupé. Proportions were based on general reference photos of cars from each era. No real model is copied.
-- `js/cars.js` stores each car as data: body lines, plus an `old` set (chrome bumpers, old lamps, hubcaps, rust, a cracked window, one missing hubcap) and a `new` set (LED lamps, light bar, aero wheels, charge port).
-- The rebuilt drawing sits in the page. The "as found" drawing is turned into an image and painted into the dust, so wiping the glass swaps old for new.
-- Each card has a "Show it rebuilt" button, so keyboard and screen reader users get the same change.
-
-## The rebuild: holographic 3D (scroll-driven animation)
-
-- `js/rebuild3d.js`, built with Three.js. The section is 620vh tall and the stage is `position: sticky`, so scrolling moves through the timeline while the car stays on screen.
-- The 3D car is made from the **same outlines as the SVG drawing**: each outline becomes a `THREE.Shape` and is extruded to give it width. So the 2D and 3D cars always match.
-- Every part is a hologram: a faint additive fill plus glowing edges from `EdgesGeometry`.
-- Colour rule in 3D: cyan is the body we keep, red is the old parts we remove, amber is the new parts we add.
-- Timeline: as found, taken apart, old engine glows red, old parts leave (engine lifted out, the rest dropped), battery rises in and motor slides in, modern touches (LED rings, light bar, aero wheels, charge port), panels go back.
-- The camera moves between one key position per step. The scroll value is smoothed a little so the motion feels mechanical.
-- HTML labels are pinned to the 3D parts by projecting a 3D point to the screen each frame.
-- Performance: Three.js only loads after the first scroll, touch or key press, so it does not slow the first load. Rendering stops when the section is off screen. If WebGL is missing, a flat drawing is shown instead.
+- Every face is live SVG: Nimesh shows digital time and the current pahar and ghati, Pal is a light quartz dial, Ghati has an open heart with a beating balance wheel.
+- Kalpa pieces: Bidri (silver inlay rosette), Ulka (meteorite crystal pattern drawn procedurally) and Jantar (real moon phase and the current tithi, worked out from the date).
