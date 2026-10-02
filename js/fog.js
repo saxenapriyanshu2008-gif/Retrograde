@@ -1,35 +1,32 @@
 /*
-  DustGlass: a dusty pane of glass you can wipe clean.
+  FogGlass: a fogged-up sapphire crystal you can wipe clean.
 
-  Used twice on the site:
-  - the hero, where you wipe a barn-find windscreen to see the blueprint car
-  - each car card, where the "as found" drawing is printed into the dust and
-    wiping it away shows the rebuilt car underneath
+  Used on the hero watch. Breathe on a watch glass and it fogs; wipe it with
+  your thumb and the dial shows through. The fog slowly comes back.
 
   How it works:
-  1. `mask` is an offscreen canvas that holds the dust (and the optional
-     "as found" drawing). We paint it once into `texture`, then copy it.
+  1. `mask` is an offscreen canvas that holds the fog. We paint it once
+     into `texture`, then copy it.
   2. Moving the cursor or a finger erases a soft circle from the mask using
      the "destination-out" blend mode. That is the wipe.
   3. Every few frames a very small amount of the texture is painted back, so
-     dust slowly settles on the glass again.
-  4. Optional dust motes float in front of the glass, lit amber.
-  5. Each frame we copy the mask to the visible canvas, then draw the motes.
+     the glass slowly fogs up again.
+  4. Each frame we copy the mask to the visible canvas.
 
   Loops only run while the glass is on screen and the tab is visible.
 */
 (function () {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  function DustGlass(canvas, options = {}) {
+  function FogGlass(canvas, options = {}) {
     const opts = Object.assign({
-      tint: "rgba(14, 38, 60, 0.94)", // colour of the grime
-      motes: false,                    // floating dust specks
+      tint: "rgba(214, 216, 214, 0.42)", // colour of the fog
+      motes: false,                    // floating specks
       wiperArcs: false,                // faint old wiper marks
-      overlay: null,                   // function(ctx, w, h) that draws on the dust
+      overlay: null,                   // function(ctx, w, h) that draws on the fog
       hint: null,                      // element to hide once the user wipes
       brush: 0.07,                     // brush size, as a share of the short side
-      settle: 0.008,                   // how fast dust comes back
+      settle: 0.008,                   // how fast fog comes back
       onWipe: null,                    // called with the share of glass wiped
     }, options);
 
@@ -75,24 +72,24 @@
       f.fillRect(0, 0, width, height);
 
       const area = width * height;
-      // soft patches where dust is thicker
+      // soft patches where the fog is thicker
       for (let i = 0; i < area / 9000; i++) {
         const x = Math.random() * width;
         const y = Math.random() * height;
         const r = 20 + Math.random() * 90;
         const g = f.createRadialGradient(x, y, 0, x, y, r);
-        g.addColorStop(0, "rgba(169, 188, 203, 0.06)");
-        g.addColorStop(1, "rgba(169, 188, 203, 0)");
+        g.addColorStop(0, "rgba(255, 255, 255, 0.08)");
+        g.addColorStop(1, "rgba(255, 255, 255, 0)");
         f.fillStyle = g;
         f.fillRect(x - r, y - r, r * 2, r * 2);
       }
       // fine grit
-      f.fillStyle = "rgba(200, 212, 222, 0.08)";
+      f.fillStyle = "rgba(255, 255, 255, 0.12)";
       for (let i = 0; i < area / 700; i++) {
         f.fillRect(Math.random() * width, Math.random() * height, 1, 1);
       }
       if (opts.wiperArcs) {
-        f.strokeStyle = "rgba(169, 188, 203, 0.025)";
+        f.strokeStyle = "rgba(255, 255, 255, 0.04)";
         f.lineWidth = 26;
         for (let i = 0; i < 3; i++) {
           f.beginPath();
@@ -118,7 +115,7 @@
 
     // Fill the gap between two positions so fast moves stay smooth.
     function wipeTo(x, y, byUser = true) {
-      const r = Math.max(28, Math.min(width, height) * opts.brush);
+      const r = Math.max(22, Math.min(width, height) * opts.brush);
       if (!last) last = { x, y };
       const dx = x - last.x;
       const dy = y - last.y;
@@ -257,7 +254,7 @@
         if (opts.hint) opts.hint.classList.add("is-gone");
         draw();
       },
-      // paint the dust back
+      // fog the glass back up
       reset() {
         mctx.globalCompositeOperation = "source-over";
         mctx.clearRect(0, 0, width, height);
@@ -270,30 +267,22 @@
     };
   }
 
-  window.DustGlass = DustGlass;
+  window.FogGlass = FogGlass;
 
-  /* ---------- hero ---------- */
-  const heroCanvas = document.querySelector(".hero .dust");
-  if (heroCanvas) {
-    const hero = heroCanvas.closest(".hero");
-    const glass = DustGlass(heroCanvas, {
-      motes: true,
-      wiperArcs: true,
-      hint: document.querySelector(".hero .wipe-hint"),
+  /* ---------- hero watch ---------- */
+  const crystal = document.querySelector(".hero .crystal");
+  if (crystal) {
+    const glass = FogGlass(crystal.querySelector(".fog"), {
+      brush: 0.11,
+      settle: 0.01,
+      hint: crystal.querySelector(".wipe-hint"),
     });
-
-    // one wipe on load, so phone users see the car and learn what the glass does
+    // one thumb-wipe across the dial on load, so people see what it does
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
       setTimeout(() => {
-        const car = hero.querySelector(".hero-car").getBoundingClientRect();
-        const box = hero.getBoundingClientRect();
-        glass.sweep(
-          car.left - box.left + car.width * 0.5,
-          car.top - box.top + car.height * 0.55,
-          car.width * 0.36,
-          car.height * 0.12
-        );
-      }, 500);
+        const r = crystal.getBoundingClientRect();
+        glass.sweep(r.width / 2, r.height / 2, r.width * 0.3, r.height * 0.1, 1200);
+      }, 600);
     });
   }
 })();
