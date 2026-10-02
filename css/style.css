@@ -1,7 +1,7 @@
 /* =========================================================
    RETROGRADE  |  brand tokens
    Cyanotype blueprint blue + paper white + one sodium-lamp
-   amber (the colour of Indian street lights on a wet night).
+   amber (the sodium lamps that light Indian scrapyards at night).
    ========================================================= */
 :root {
   --ink: #123b5e;        /* cyanotype blue, main background */
@@ -9,7 +9,6 @@
   --paper: #e8eef1;      /* blueprint paper white, main text */
   --paper-dim: #a9bccb;  /* secondary text on blue */
   --sodium: #f2a33a;     /* sodium street lamp, the one accent */
-  --wet: #2f6f8f;        /* water and lines */
 
   --line: rgba(232, 238, 241, 0.22);
 
@@ -237,15 +236,15 @@ p { margin: 0 0 1em; }
 .note-b { left: 40%; top: 88%; color: var(--sodium); }
 .note-c { right: -2%; top: 58%; }
 
-/* the fogged glass sits over the drawing, under the words */
-.fog {
+/* the dusty glass sits over the drawing, under the words */
+.dust {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   z-index: 0;
   touch-action: pan-y;
-  cursor: crosshair;
+  cursor: grab;
 }
 
 .wipe-hint {
@@ -296,7 +295,7 @@ p { margin: 0 0 1em; }
 }
 
 /* ---------- shared section layout ---------- */
-.rebuild, .monsoon, .cars, .reserve {
+.rebuild, .heart, .cars, .reserve {
   padding: clamp(5rem, 12vw, 9rem) var(--gutter);
   max-width: var(--max);
   margin: 0 auto;
@@ -341,7 +340,7 @@ p { margin: 0 0 1em; }
 .rebuild-steps h3 { margin-bottom: 0.5rem; }
 .rebuild-steps p { color: var(--paper-dim); font-size: var(--step--1); }
 
-/* ---------- monsoon ---------- */
+/* ---------- heart specs ---------- */
 .specs {
   margin: 0 0 4rem;
   display: grid;
