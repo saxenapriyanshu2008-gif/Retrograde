@@ -93,7 +93,8 @@ function canvasTexture(size, draw) {
 
 /* ---------------- textures ---------------- */
 
-function dialTexture() {
+function dialTexture(kind = "ghati") {
+  if (kind !== "ghati") return dialVariant(kind);
   return canvasTexture(1024, (g, S) => {
     const c = S / 2;
     g.fillStyle = "#0a0a0a";
@@ -137,6 +138,99 @@ function dialTexture() {
     g.font = '500 24px "Instrument Sans", Arial, sans-serif';
     g.letterSpacing = "6px";
     g.fillText("GHATI 01  AUTOMATIC", c, c * 1.5);
+  });
+}
+
+// Dials for the other models: Pal (cream dress dial), and the three Kalpa pieces
+function dialVariant(kind) {
+  return canvasTexture(1024, (g, S) => {
+    const c = S / 2;
+    const ring = (r, w, col) => { g.strokeStyle = col; g.lineWidth = w; g.beginPath(); g.arc(c, c, r, 0, TAU); g.stroke(); };
+    const ticks = (r0, r1, n, col, w, every = 0, colBig = col, wBig = w) => {
+      for (let i = 0; i < n; i++) {
+        const a = (i / n) * TAU - Math.PI / 2, big = every && i % every === 0;
+        g.strokeStyle = big ? colBig : col; g.lineWidth = big ? wBig : w;
+        g.beginPath();
+        g.moveTo(c + Math.cos(a) * r0, c + Math.sin(a) * r0);
+        g.lineTo(c + Math.cos(a) * r1, c + Math.sin(a) * r1);
+        g.stroke();
+      }
+    };
+    const brand = (col, y = 0.56) => {
+      g.textAlign = "center"; g.fillStyle = col;
+      g.font = '600 50px "Bodoni Moda", Didot, serif'; g.letterSpacing = "14px";
+      g.fillText("VELA", c, c * y); g.letterSpacing = "0px";
+    };
+    if (kind === "pal") {
+      const grad = g.createRadialGradient(c * 0.8, c * 0.7, 20, c, c, c);
+      grad.addColorStop(0, "#f4f1ea"); grad.addColorStop(1, "#d9d4c8");
+      g.fillStyle = grad; g.fillRect(0, 0, S, S);
+      ticks(c * 0.9, c * 0.96, 60, "#6f6a60", 2.5, 5, "#1a1917", 5);
+      g.fillStyle = "#1a1917"; g.textAlign = "center"; g.textBaseline = "middle";
+      g.font = '500 92px "Bodoni Moda", Didot, serif';
+      [["12", 0, -0.72], ["3", 0.74, 0], ["6", 0, 0.74], ["9", -0.74, 0]].forEach(([t, x, y]) => g.fillText(t, c + x * c, c + y * c));
+      g.textBaseline = "alphabetic";
+      brand("#1a1917", 0.6);
+      g.fillStyle = "#6f6a60"; g.font = '500 22px "Instrument Sans", Arial, sans-serif'; g.letterSpacing = "6px";
+      g.fillText("PAL  QUARTZ", c, c * 1.42);
+    } else if (kind === "bidri") {
+      g.fillStyle = "#111112"; g.fillRect(0, 0, S, S);
+      g.strokeStyle = "#e2e2e2"; g.fillStyle = "#d8d8d8";
+      ring(c * 0.93, 7, "#d8d8d8"); ring(c * 0.78, 3, "#bdbdbd");
+      for (let i = 0; i < 48; i++) { // silver diamonds around the edge
+        const a = (i / 48) * TAU;
+        g.save(); g.translate(c + Math.cos(a) * c * 0.855, c + Math.sin(a) * c * 0.855); g.rotate(a + Math.PI / 4);
+        g.fillRect(-8, -8, 16, 16); g.restore();
+      }
+      for (let i = 0; i < 8; i++) { // eight-petal rosette, as inlaid silver wire
+        g.save(); g.translate(c, c); g.rotate((i / 8) * TAU);
+        g.lineWidth = 7; g.strokeStyle = "#e4e4e4";
+        g.beginPath(); g.moveTo(0, -60);
+        g.bezierCurveTo(70, -130, 50, -280, 0, -320);
+        g.bezierCurveTo(-50, -280, -70, -130, 0, -60); g.stroke();
+        g.lineWidth = 3; g.strokeStyle = "#bcbcbc";
+        g.rotate(TAU / 16);
+        g.beginPath(); g.moveTo(0, -110); g.bezierCurveTo(28, -160, 22, -230, 0, -260); g.stroke();
+        g.restore();
+      }
+      ring(48, 7, "#e4e4e4");
+    } else if (kind === "ulka") {
+      g.fillStyle = "#6a6b6f"; g.fillRect(0, 0, S, S);
+      let seed = 11;
+      const rnd = () => ((seed = (seed * 9301 + 49297) % 233280) / 233280);
+      for (const ang of [20, 80, 140]) { // crossing bands, like an etched meteorite
+        g.save(); g.translate(c, c); g.rotate((ang * Math.PI) / 180);
+        for (let i = 0; i < 34; i++) {
+          const y = -c * 1.3 + rnd() * c * 2.6, h = 6 + rnd() * 40, v = 90 + Math.floor(rnd() * 100);
+          g.fillStyle = `rgba(${v},${v},${v + 8},${0.25 + rnd() * 0.4})`;
+          g.fillRect(-c * 1.5, y, c * 3, h);
+        }
+        g.restore();
+      }
+      brand("#f1e6cc", 0.5);
+    } else if (kind === "jantar") {
+      g.fillStyle = "#070a12"; g.fillRect(0, 0, S, S);
+      ticks(c * 0.93, c * 0.97, 30, "#6f6a5f", 3);
+      g.fillStyle = "#8f8676"; g.textAlign = "center"; g.textBaseline = "middle";
+      g.font = '500 26px "Instrument Sans", Arial, sans-serif';
+      for (let i = 0; i < 30; i++) {
+        const a = ((i + 0.5) / 30) * TAU - Math.PI / 2;
+        g.fillStyle = i === 20 ? "#e7cb94" : "#8f8676";
+        g.fillText(String(i + 1), c + Math.cos(a) * c * 0.84, c + Math.sin(a) * c * 0.84);
+      }
+      ring(c * 0.74, 2, "rgba(200,164,106,0.5)");
+      // moon phase window at six o'clock
+      g.fillStyle = "#0d1224"; g.beginPath(); g.arc(c, c * 1.4, 78, 0, TAU); g.fill();
+      g.strokeStyle = "#c8a46a"; g.lineWidth = 5; g.beginPath(); g.arc(c, c * 1.4, 78, 0, TAU); g.stroke();
+      g.fillStyle = "#efe6cf"; g.beginPath(); g.arc(c, c * 1.4, 64, 0, TAU); g.fill();
+      g.fillStyle = "#0d1224"; g.beginPath(); g.arc(c - 34, c * 1.4, 66, 0, TAU); g.fill();
+      for (let i = 0; i < 40; i++) { // a few stars
+        g.fillStyle = `rgba(231,203,148,${0.3 + Math.random() * 0.5})`;
+        g.fillRect(c - 200 + Math.random() * 400, c * 0.2 + Math.random() * 300, 3, 3);
+      }
+      g.textBaseline = "alphabetic";
+      brand("#e7cb94", 0.62);
+    }
   });
 }
 
@@ -203,7 +297,9 @@ function perlageTexture() {
 
 /* ---------------- the watch ---------------- */
 
-function buildWatch() {
+function buildWatch(opts = {}) {
+  const o = { dial: "ghati", metal: "steel", bezel: "dive", indices: true, hands: "gold", strap: null, ...opts };
+  const goldCase = o.metal === "gold";
   const M = {
     steel: new THREE.MeshStandardMaterial({ color: 0xdcdcdc, metalness: 1, roughness: 0.2, envMapIntensity: 1.1 }),
     brushed: new THREE.MeshStandardMaterial({ color: 0xc9c9c9, metalness: 1, roughness: 0.38 }),
@@ -212,7 +308,7 @@ function buildWatch() {
     bridge: new THREE.MeshStandardMaterial({ color: 0xcfcfd3, metalness: 1, roughness: 0.18 }),
     ruby: new THREE.MeshPhysicalMaterial({ color: 0xb0102a, metalness: 0, roughness: 0.05, clearcoat: 1, emissive: 0x30000a }),
     ceramic: new THREE.MeshPhysicalMaterial({ color: 0xffffff, map: bezelTexture(), metalness: 0.1, roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.05 }),
-    dial: new THREE.MeshStandardMaterial({ color: 0xffffff, map: dialTexture(), metalness: 0.55, roughness: 0.35 }),
+    dial: new THREE.MeshStandardMaterial({ color: 0xffffff, map: dialTexture(o.dial), metalness: o.dial === "pal" ? 0.1 : 0.55, roughness: o.dial === "pal" ? 0.6 : 0.35 }),
     dialEdge: new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.6, roughness: 0.4 }),
     sapphire: new THREE.MeshPhysicalMaterial({
       color: 0xffffff, metalness: 0, roughness: 0, transmission: 1, thickness: 0.4, ior: 1.77,
@@ -221,6 +317,11 @@ function buildWatch() {
     rubber: new THREE.MeshStandardMaterial({ color: 0x151515, metalness: 0, roughness: 0.7 }),
     blued: new THREE.MeshStandardMaterial({ color: 0x23306b, metalness: 1, roughness: 0.25 }),
   };
+
+  // case metal: polished steel, or 18k yellow gold for Kalpa
+  M.case = goldCase ? new THREE.MeshStandardMaterial({ color: 0xe8c27e, metalness: 1, roughness: 0.18 }) : M.steel;
+  M.caseBrushed = goldCase ? new THREE.MeshStandardMaterial({ color: 0xd9b26f, metalness: 1, roughness: 0.35 }) : M.brushed;
+  M.hand = { gold: M.gold, silver: M.steel, black: new THREE.MeshStandardMaterial({ color: 0x141414, metalness: 0.7, roughness: 0.3 }) }[o.hands];
 
   const watch = new THREE.Group();
   const P = {}; // named parts
@@ -231,10 +332,10 @@ function buildWatch() {
   back.add(new THREE.Mesh(new THREE.LatheGeometry([
     new THREE.Vector2(1.3, -0.1), new THREE.Vector2(1.7, -0.12), new THREE.Vector2(1.9, -0.06),
     new THREE.Vector2(1.95, 0.08), new THREE.Vector2(1.3, 0.08), new THREE.Vector2(1.3, -0.1),
-  ], 128), M.brushed));
+  ], 128), M.caseBrushed));
   const notch = new RoundedBoxGeometry(0.12, 0.1, 0.22, 2, 0.02);
   for (let i = 0; i < 12; i++) {
-    const n = new THREE.Mesh(notch, M.steel);
+    const n = new THREE.Mesh(notch, M.case);
     const a = (i / 12) * TAU;
     n.position.set(Math.cos(a) * 1.92, 0.01, Math.sin(a) * 1.92);
     n.rotation.y = -a;
@@ -352,16 +453,26 @@ function buildWatch() {
     new THREE.Vector2(1.62, -0.36), new THREE.Vector2(1.94, -0.36), new THREE.Vector2(2.02, -0.28),
     new THREE.Vector2(2.06, 0.0), new THREE.Vector2(2.02, 0.18), new THREE.Vector2(1.9, 0.26),
     new THREE.Vector2(1.62, 0.26), new THREE.Vector2(1.62, -0.36),
-  ], 160), M.steel));
-  const lug = new RoundedBoxGeometry(0.42, 0.34, 1.0, 4, 0.1);
+  ], 160), M.case));
+  // lugs: curved horns seen from the side, extruded to their width
+  const horn = new THREE.Shape();
+  horn.moveTo(1.55, 0.2);
+  horn.bezierCurveTo(1.95, 0.22, 2.35, 0.12, 2.62, -0.08); // top line sweeps down
+  horn.quadraticCurveTo(2.7, -0.2, 2.6, -0.3);              // rounded tip
+  horn.bezierCurveTo(2.35, -0.3, 2.0, -0.34, 1.55, -0.34);   // underside
+  horn.closePath();
+  const lugGeom = new THREE.ExtrudeGeometry(horn, { depth: 0.36, bevelEnabled: true, bevelThickness: 0.05, bevelSize: 0.05, bevelSegments: 4, curveSegments: 24 });
+  lugGeom.translate(0, 0, -0.18);
+  lugGeom.rotateY(-Math.PI / 2); // shape x becomes world z, width runs along x
   for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
-    const l = new THREE.Mesh(lug, M.steel);
-    l.position.set(sx * 1.12, -0.1, sz * 2.0);
-    l.rotation.x = sz * 0.12;
+    const l = new THREE.Mesh(lugGeom, M.case);
+    l.position.set(sx * 1.1, 0, 0);
+    if (sz < 0) l.rotation.y = Math.PI; // mirror to the 6 o'clock side
+    if (sz < 0) l.position.x = -sx * 1.1;
     mid.add(l);
   }
   const crown = new THREE.Group();
-  crown.add(new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.26, 0.3, 30).rotateZ(Math.PI / 2), new THREE.MeshStandardMaterial({ color: 0xdedede, metalness: 1, roughness: 0.25, flatShading: true })));
+  crown.add(new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.26, 0.3, 30).rotateZ(Math.PI / 2), new THREE.MeshStandardMaterial({ color: goldCase ? 0xe8c27e : 0xdedede, metalness: 1, roughness: 0.25, flatShading: true })));
   const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.9, 12).rotateZ(Math.PI / 2), M.steel);
   stem.position.x = -0.55;
   crown.add(stem);
@@ -372,9 +483,11 @@ function buildWatch() {
 
   /* dial with applied indices */
   const dial = new THREE.Group();
-  dial.add(new THREE.Mesh(new THREE.CylinderGeometry(1.6, 1.6, 0.04, 128), [M.dialEdge, M.dial, M.dialEdge]));
+  const face = new THREE.Mesh(new THREE.CylinderGeometry(1.6, 1.6, 0.04, 128), [M.dialEdge, M.dial, M.dialEdge]);
+  face.rotation.y = Math.PI / 2; // the cylinder cap maps the texture sideways; turn it so 12 is at the top
+  dial.add(face);
   const idx = new RoundedBoxGeometry(0.07, 0.05, 0.26, 2, 0.015);
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < (o.indices ? 12 : 0); i++) {
     const a = (i / 12) * TAU;
     const reps = i === 0 ? [-0.06, 0.06] : [0];
     for (const off of reps) {
@@ -399,11 +512,11 @@ function buildWatch() {
     g.position.y = y;
     return g;
   };
-  const hours = add("hour", hand(handShape(0.92, 0.075, 0.12), 0.0, M.gold), 0.15);
-  const mins = add("minute", hand(handShape(1.35, 0.06, 0.15), 0.0, M.gold), 0.18);
+  const hours = add("hour", hand(handShape(0.92, 0.075, 0.12), 0.0, M.hand), 0.15);
+  const mins = add("minute", hand(handShape(1.35, 0.06, 0.15), 0.0, M.hand), 0.18);
   const secShape = new THREE.Shape();
   secShape.moveTo(-0.012, -0.32); secShape.lineTo(0.012, -0.32); secShape.lineTo(0.008, 1.45); secShape.lineTo(-0.008, 1.45); secShape.closePath();
-  const secs = add("second", hand(secShape, 0.0, new THREE.MeshStandardMaterial({ color: 0xd2553a, metalness: 0.6, roughness: 0.3 })), 0.21);
+  const secs = add("second", hand(secShape, 0.0, o.dial === "ghati" ? new THREE.MeshStandardMaterial({ color: 0xd2553a, metalness: 0.6, roughness: 0.3 }) : M.hand), 0.21);
   secs.add(new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.03, 24), M.gold));
   // flat() turns a shape's +y into -z, so every hand already points to 12
 
@@ -419,8 +532,17 @@ function buildWatch() {
   const bh = new THREE.Path();
   bh.absarc(0, 0, 1.6, 0, TAU, true);
   bez.holes.push(bh);
-  add("bezel", new THREE.Mesh(flat(bez, 0.13, 0.02), M.steel), 0.27);
-  add("insert", new THREE.Mesh(new THREE.RingGeometry(1.62, 1.94, 128, 1).rotateX(-Math.PI / 2), M.ceramic), 0.43);
+  if (o.bezel === "dive") {
+    add("bezel", new THREE.Mesh(flat(bez, 0.13, 0.02), M.case), 0.27);
+    add("insert", new THREE.Mesh(new THREE.RingGeometry(1.62, 1.94, 128, 1).rotateX(-Math.PI / 2), M.ceramic), 0.43);
+  } else {
+    // a plain polished bezel, rounded on top, for dress watches
+    add("bezel", new THREE.Mesh(new THREE.LatheGeometry([
+      new THREE.Vector2(1.6, 0), new THREE.Vector2(2.0, 0), new THREE.Vector2(2.01, 0.06),
+      new THREE.Vector2(1.94, 0.15), new THREE.Vector2(1.78, 0.2), new THREE.Vector2(1.6, 0.2), new THREE.Vector2(1.6, 0),
+    ], 160), M.case), 0.26);
+    add("insert", new THREE.Group(), 0.43);
+  }
 
   /* sapphire crystal, slightly domed */
   const crystal = new THREE.Group();
@@ -430,10 +552,102 @@ function buildWatch() {
   crystal.add(dome);
   add("crystal", crystal, 0.46);
 
+  /* leather strap, only for product renders */
+  if (o.strap) {
+    const leather = new THREE.MeshStandardMaterial({ color: o.strap, roughness: 0.72, metalness: 0, bumpMap: grainTexture(), bumpScale: 0.6 });
+    for (const side of [1, -1]) {
+      const path = [[2.35, -0.14], [2.95, -0.3], [3.45, -0.75], [3.75, -1.45], [3.85, -2.4], [3.8, -3.4]]
+        .map(([z, y]) => new THREE.Vector2(z * side, y));
+      P["strap" + side] = new THREE.Mesh(ribbon(path, 1.86, 0.14), leather);
+      watch.add(P["strap" + side]);
+    }
+  }
+
   // how far each layer lifts when the watch opens (like the reference stack)
   const lift = { crystal: 4.4, insert: 3.8, bezel: 3.25, second: 2.55, minute: 2.3, hour: 2.05, dial: 1.35, case: 0, movement: -1.45, gasket: -2.35, rotor: -2.85, caseback: -3.55 };
 
   return { watch, P, gears, lift };
+}
+
+// A strap: a thick band that follows a curve in the y-z plane, centred on x = 0
+function ribbon(pts2, width, thick) {
+  const curve = new THREE.SplineCurve(pts2);
+  const n = 60, pts = curve.getPoints(n), pos = [], idx = [];
+  for (let i = 0; i <= n; i++) {
+    const a = pts[Math.max(0, i - 1)], b = pts[Math.min(n, i + 1)];
+    let nz = -(b.y - a.y), ny = b.x - a.x; const l = Math.hypot(nz, ny) || 1; nz /= l; ny /= l;
+    if (ny < 0) { nz = -nz; ny = -ny; } // keep the normal pointing up
+    const z = pts[i].x, y = pts[i].y, h = thick / 2, w = width / 2;
+    pos.push(-w, y + ny * h, z + nz * h,  w, y + ny * h, z + nz * h,  w, y - ny * h, z - nz * h,  -w, y - ny * h, z - nz * h);
+  }
+  for (let i = 0; i < n; i++) {
+    const A = i * 4, B = (i + 1) * 4;
+    for (let k = 0; k < 4; k++) {
+      const k2 = (k + 1) % 4;
+      idx.push(A + k, B + k, B + k2, A + k, B + k2, A + k2);
+    }
+  }
+  idx.push(0, 1, 2, 0, 2, 3); // close the end at the lug
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+  g.setIndex(idx);
+  g.computeVertexNormals();
+  return g;
+}
+
+// fine leather grain, used as a bump map
+function grainTexture() {
+  const t = canvasTexture(256, (g, S) => {
+    const img = g.createImageData(S, S);
+    for (let i = 0; i < img.data.length; i += 4) {
+      const v = 110 + Math.random() * 60;
+      img.data[i] = img.data[i + 1] = img.data[i + 2] = v; img.data[i + 3] = 255;
+    }
+    g.putImageData(img, 0, 0);
+  });
+  t.colorSpace = THREE.NoColorSpace;
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  return t;
+}
+
+/*
+  Product renders. Builds one watch model and draws a still image of it,
+  hands set to 10:10 like a shop photo. Used by tools/render.html to make
+  the images in assets/renders.
+*/
+export async function renderStill(canvas, opts, view = {}) {
+  const v = { size: 1400, az: 0.32, el: 0.95, r: 11.2, ...view };
+  if (document.fonts) await document.fonts.ready;
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+  renderer.setPixelRatio(1);
+  renderer.setSize(v.size, v.size, false);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.setClearColor(0x000000, 0);
+  const scene = new THREE.Scene();
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.04).texture;
+  const key = new THREE.DirectionalLight(0xfff1dc, 2.4); key.position.set(-4, 8, 5);
+  const rim = new THREE.DirectionalLight(0xc9d6ff, 1.4); rim.position.set(5, 3, -6);
+  scene.add(key, rim);
+  const { watch, P } = buildWatch(opts);
+  // 10:10, the classic shop photo time
+  P.hour.rotation.y = -(10 + 10 / 60) / 12 * TAU;
+  P.minute.rotation.y = -(10 / 60) * TAU;
+  P.second.rotation.y = -(35 / 60) * TAU;
+  watch.rotation.y = v.spin || 0;
+  scene.add(watch);
+  const cam = new THREE.PerspectiveCamera(26, 1, 0.1, 100);
+  const target = new THREE.Vector3(0, v.ty || -0.4, v.tz || 0.3);
+  cam.position.set(
+    target.x + v.r * Math.cos(v.el) * Math.sin(v.az),
+    target.y + v.r * Math.sin(v.el),
+    target.z + v.r * Math.cos(v.el) * Math.cos(v.az)
+  );
+  cam.lookAt(target);
+  renderer.render(scene, cam);
+  const url = canvas.toDataURL("image/png");
+  renderer.dispose();
+  return url;
 }
 
 // Brass outline of a part, used as the hologram highlight

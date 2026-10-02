@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Vela render bench</title>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..800&family=Instrument+Sans:wght@400..700&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+<style>body{background:#000;color:#999;font:14px sans-serif;margin:20px}canvas{width:300px;height:300px;margin:6px;background:#111}</style>
+</head>
+<body>
+<!--
+  Render bench: draws the product shots used on the site from our own 3D model.
+  Open with a local server, wait, then each image appears below. The build
+  script saves window.renders as files in assets/renders.
+-->
+<p>Rendering product shots...</p>
+<div id="out"></div>
+<script type="module">
+  import { renderStill } from "../js/watch3d.js";
+  const models = {
+    "ghati":  [{ dial: "ghati", metal: "steel", bezel: "dive", indices: true, hands: "gold", strap: 0x1c1a19 }, {}],
+    "pal":    [{ dial: "pal", metal: "steel", bezel: "smooth", indices: false, hands: "black", strap: 0x5a3622 }, {}],
+    "bidri":  [{ dial: "bidri", metal: "gold", bezel: "smooth", indices: false, hands: "silver", strap: 0x16110d }, {}],
+    "ulka":   [{ dial: "ulka", metal: "gold", bezel: "smooth", indices: true, hands: "gold", strap: 0x2b1a12 }, {}],
+    "jantar": [{ dial: "jantar", metal: "gold", bezel: "smooth", indices: false, hands: "gold", strap: 0x121a2e }, {}],
+    "ghati-hero": [{ dial: "ghati", metal: "steel", bezel: "dive", indices: true, hands: "gold", strap: 0x1c1a19 }, { az: 0.55, el: 0.62, r: 12.5, spin: -0.5, ty: -0.6 }],
+  };
+  window.renders = {};
+  for (const [name, [opts, view]] of Object.entries(models)) {
+    const c = document.createElement("canvas");
+    document.getElementById("out").appendChild(c);
+    window.renders[name] = await renderStill(c, opts, view);
+  }
+  window.rendersDone = true;
+  document.querySelector("p").textContent = "Done.";
+</script>
+</body>
+</html>
