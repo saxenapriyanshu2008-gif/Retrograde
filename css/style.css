@@ -4,6 +4,7 @@
    amber (the sodium lamps that light Indian scrapyards at night).
    ========================================================= */
 :root {
+  color-scheme: dark;
   --ink: #123b5e;        /* cyanotype blue, main background */
   --ink-deep: #0a2238;   /* night, used for depth and footer */
   --paper: #e8eef1;      /* blueprint paper white, main text */
